@@ -45,11 +45,12 @@ class MainActivity : ComponentActivity() {
                 Timber.d("The network state is: ----- ${connectivityManager.isNetworkAvailable.value}")
                 Timber.d("Is this a loading state: ----- ${viewModel.isLoading.value}")
                 Timber.d("The size of the crypto list is : ----- ${viewModel.cryptos.value.size}")
+                val cryptos = viewModel.cryptos.value.joinToString(separator = "\n\n")
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(scroll), color = MaterialTheme.colorScheme.background) {
-                    Greeting("${viewModel.cryptos.value}")
+                    Greeting(cryptos)
                 }
             }
         }

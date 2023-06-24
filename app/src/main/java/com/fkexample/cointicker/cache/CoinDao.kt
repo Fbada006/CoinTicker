@@ -9,7 +9,7 @@ import com.fkexample.cointicker.cache.models.CryptoEntity
 @Dao
 interface CoinDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCoins(coins: List<CryptoEntity>): LongArray
 
     @Query("SELECT * FROM coins")

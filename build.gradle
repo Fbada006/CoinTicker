@@ -7,6 +7,10 @@ buildscript {
         retrofitVersion = '2.9.0'
         moshiConverterVersion = '2.8.1'
         timberVersion = '5.0.1'
+        roomVersion = "2.4.3"
+        coilVersion = "2.2.1"
+        coreKtxVersion = "1.9.0"
+        lifecyleRuntimeKtxVersion = "2.5.1"
     }
 }
 

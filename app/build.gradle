@@ -5,6 +5,10 @@ plugins {
     id 'com.google.dagger.hilt.android'
 }
 
+def localPropertiesFile = rootProject.file("local.properties")
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(localPropertiesFile))
+
 android {
     namespace 'com.fkexample.cointicker'
     compileSdk 33
@@ -20,6 +24,7 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        buildConfigField "String", "coinApiKey", localProperties['coinApiKey']
     }
 
     buildTypes {
@@ -50,19 +55,44 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation "androidx.core:core-ktx:$rootProject.coreKtxVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.lifecyleRuntimeKtxVersion"
+
     implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
     implementation 'androidx.activity:activity-compose:1.5.1'
     implementation platform('androidx.compose:compose-bom:2022.10.00')
     implementation 'androidx.compose.ui:ui'
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'
     implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
-    // Dagger
-    implementation "com.google.dagger:hilt-android:$hiltVersion"
-    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+    // Retrofit
+    api "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    api "com.squareup.retrofit2:converter-moshi:$rootProject.moshiConverterVersion"
+
+    // Moshi for parsing the JSON format
+    api "com.squareup.moshi:moshi:$rootProject.moshiVersion"
+    api "com.squareup.moshi:moshi-kotlin:$rootProject.moshiVersion"
+
+    // Ok http interceptor
+    api "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpInterceptor"
+
+    //Hilt
+    implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
+
+    //Timber
+    implementation "com.jakewharton.timber:timber:$rootProject.timberVersion"
+
+    //Room
+    implementation "androidx.room:room-runtime:$rootProject.roomVersion"
+    implementation "androidx.room:room-ktx:$rootProject.roomVersion"
+    implementation "androidx.room:room-paging:$rootProject.roomVersion"
+    kapt "androidx.room:room-compiler:$rootProject.roomVersion"
+
+    //Coil
+    implementation "io.coil-kt:coil-compose:$rootProject.coilVersion"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

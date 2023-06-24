@@ -7,11 +7,15 @@ import com.fkexample.cointicker.utils.DataState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onStart
 
 class GetAllCoinsUseCase(private val coinRepository: CoinRepository) {
 
-    fun execute(): Flow<DataState<List<Crypto>>> = flow {
+    operator fun invoke(): Flow<DataState<List<Crypto>>> = flow {
         coinRepository.getAllCoins()
+            .onStart {
+                emit(DataState.loading())
+            }
             .catch { error ->
                 emit(DataState.error(error))
             }

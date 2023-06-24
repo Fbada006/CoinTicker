@@ -23,7 +23,7 @@ class CryptoListViewModel @Inject constructor(private val getAllCoinsUseCase: Ge
     }
 
     private fun getAllCoins() {
-        getAllCoinsUseCase.execute().onEach { dataState ->
+        getAllCoinsUseCase().onEach { dataState ->
             isLoading.value = dataState.loading
 
             dataState.data?.let { list ->

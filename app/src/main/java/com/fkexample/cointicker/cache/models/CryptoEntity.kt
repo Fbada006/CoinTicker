@@ -10,8 +10,8 @@ data class CryptoEntity(
     @ColumnInfo(name = "asset_id")
     val assetId: String,
     val name: String,
-    @ColumnInfo(name = "id_cached")
-    val idIcon: String?,
+    @ColumnInfo(name = "crypto_url")
+    val cryptoUrl: String?,
     @ColumnInfo(name = "date_cached")
     val dateCached: Long,
 )

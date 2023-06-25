@@ -3,14 +3,14 @@ buildscript {
     ext {
         hiltVersion = '2.46.1'
         okhttpInterceptor = '4.10.0'
-        moshiVersion = '1.12.0'
+        moshiVersion = '1.15.0'
         retrofitVersion = '2.9.0'
-        moshiConverterVersion = '2.8.1'
+        moshiConverterVersion = '2.9.0'
         timberVersion = '5.0.1'
-        roomVersion = "2.4.3"
-        coilVersion = "2.2.1"
-        coreKtxVersion = "1.9.0"
-        lifecyleRuntimeKtxVersion = "2.5.1"
+        roomVersion = "2.5.2"
+        coilVersion = "2.4.0"
+        coreKtxVersion = "1.10.1"
+        lifecyleRuntimeKtxVersion = "2.6.1"
     }
 }
 

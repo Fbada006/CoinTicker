@@ -4,8 +4,8 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class CryptoNetwork(
+data class CryptoImageNetwork(
     @Json(name = "asset_id")
     val assetId: String,
-    val name: String
+    val url: String?
 )

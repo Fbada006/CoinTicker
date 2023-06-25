@@ -3,7 +3,6 @@ package com.fkexample.cointicker
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,7 +30,6 @@ class MainActivity : ComponentActivity() {
         connectivityManager.unregisterConnectionObserver(this)
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -46,9 +44,9 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     loading = loading,
                     cryptos = cryptos,
-                    onFavoriteClick = { tickerViewModel.onFavouriteClick() }
+                    onFavoriteClick = { crypto -> tickerViewModel.onFavouriteClick(crypto) },
+                    onSearch = { query -> tickerViewModel.onSearch(query) }
                 )
-
             }
         }
     }

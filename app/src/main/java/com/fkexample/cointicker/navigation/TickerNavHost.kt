@@ -15,6 +15,7 @@ fun TickerNavHost(
     loading: Boolean,
     cryptos: List<Crypto>,
     onFavoriteClick: (crypto: Crypto) -> Unit,
+    onSearch: (query: String) -> Unit,
 ) {
 
     NavHost(navController = navController, startDestination = MainScreen.route) {
@@ -25,7 +26,8 @@ fun TickerNavHost(
                 onCardClick = { crypto ->
                     navController.navigateToDetailScreen(crypto.assetId)
                 },
-                onFavoriteClick = { crypto -> onFavoriteClick(crypto) }
+                onFavoriteClick = { crypto -> onFavoriteClick(crypto) },
+                onSearch = { query -> onSearch(query) }
             )
         }
         composable(

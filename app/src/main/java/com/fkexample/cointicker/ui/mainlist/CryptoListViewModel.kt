@@ -39,7 +39,11 @@ class CryptoListViewModel @Inject constructor(private val getAllCoinsUseCase: Ge
         }.launchIn(viewModelScope)
     }
 
-    fun onFavouriteClick() {
+    fun onFavouriteClick(crypto: Crypto) {
+        TODO("Not yet implemented")
+    }
+
+    fun onSearch(query: String) {
         TODO("Not yet implemented")
     }
 }

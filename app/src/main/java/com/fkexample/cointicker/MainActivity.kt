@@ -3,20 +3,16 @@ package com.fkexample.cointicker
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
+import com.fkexample.cointicker.navigation.TickerNavHost
 import com.fkexample.cointicker.network.utils.ConnectionManager
 import com.fkexample.cointicker.ui.mainlist.CryptoListViewModel
 import com.fkexample.cointicker.ui.theme.CoinTickerTheme
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,32 +31,25 @@ class MainActivity : ComponentActivity() {
         connectivityManager.unregisterConnectionObserver(this)
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val viewModel: CryptoListViewModel = hiltViewModel()
-            val scroll = rememberScrollState(0)
+            val navController = rememberNavController()
+            val tickerViewModel: CryptoListViewModel = hiltViewModel()
+            val cryptos by tickerViewModel.cryptos.collectAsState()
+            val loading by tickerViewModel.isLoading.collectAsState()
+            val isNetworkAvailable by connectivityManager.isNetworkAvailable
 
-            CoinTickerTheme {
-                Timber.d("The network state is: ----- ${connectivityManager.isNetworkAvailable.value}")
-                Timber.d("Is this a loading state: ----- ${viewModel.isLoading.value}")
-                Timber.d("The size of the crypto list is : ----- ${viewModel.cryptos.value.size}")
-                val cryptos = viewModel.cryptos.value.joinToString(separator = "\n\n")
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(scroll), color = MaterialTheme.colorScheme.background) {
-                    Greeting(cryptos)
-                }
+            CoinTickerTheme(isNetworkAvailable = isNetworkAvailable) {
+                TickerNavHost(
+                    navController = navController,
+                    loading = loading,
+                    cryptos = cryptos,
+                    onFavoriteClick = { tickerViewModel.onFavouriteClick() }
+                )
+
             }
         }
     }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = name,
-        modifier = modifier
-    )
 }

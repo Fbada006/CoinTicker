@@ -5,6 +5,8 @@
     <string name="cd_favorite_icon">Favorite icon</string>
     <string name="cd_card_holding_the_crypto_data">Card holding the crypto data</string>
     <string name="last_updated">"Last updated: %s"</string>
+    <string name="asset_id_details_label">"Crypto Details"</string>
     <string name="there_is_no_data_to_display_at_the_moment">There is no data to display at the moment.</string>
     <string name="nothing_illustration">¯\\_(ツ)_/¯</string>
+    <string name="cd_back_button">Back button</string>
 </resources>

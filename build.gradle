@@ -11,6 +11,7 @@ buildscript {
         coilVersion = "2.4.0"
         coreKtxVersion = "1.10.1"
         lifecyleRuntimeKtxVersion = "2.6.1"
+        viewmodelComposeVersion = '2.6.1'
     }
 }
 

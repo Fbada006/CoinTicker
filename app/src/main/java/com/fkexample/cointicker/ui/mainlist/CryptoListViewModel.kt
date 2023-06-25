@@ -1,12 +1,12 @@
 package com.fkexample.cointicker.ui.mainlist
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fkexample.cointicker.presentation.models.Crypto
 import com.fkexample.cointicker.usecases.GetAllCoinsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -14,9 +14,12 @@ import javax.inject.Inject
 @HiltViewModel
 class CryptoListViewModel @Inject constructor(private val getAllCoinsUseCase: GetAllCoinsUseCase) : ViewModel() {
 
-    val cryptos: MutableState<List<Crypto>> = mutableStateOf(emptyList())
+    private val mutableCryptosState = MutableStateFlow(listOf<Crypto>())
+    val cryptos = mutableCryptosState.asStateFlow()
 
-    val isLoading = mutableStateOf(false)
+    private val mutableIsLoadingState = MutableStateFlow(false)
+    val isLoading = mutableIsLoadingState.asStateFlow()
+
 
     init {
         getAllCoins()
@@ -24,15 +27,19 @@ class CryptoListViewModel @Inject constructor(private val getAllCoinsUseCase: Ge
 
     private fun getAllCoins() {
         getAllCoinsUseCase().onEach { dataState ->
-            isLoading.value = dataState.loading
+            mutableIsLoadingState.value = dataState.loading
 
             dataState.data?.let { list ->
-                cryptos.value = list
+                mutableCryptosState.value = list
             }
 
             dataState.error?.let {
 
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun onFavouriteClick() {
+        TODO("Not yet implemented")
     }
 }

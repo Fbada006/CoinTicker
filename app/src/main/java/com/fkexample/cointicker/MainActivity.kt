@@ -3,10 +3,15 @@ package com.fkexample.cointicker
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
+import com.fkexample.cointicker.navigation.TickerNavHost
 import com.fkexample.cointicker.network.utils.ConnectionManager
-import com.fkexample.cointicker.ui.mainlist.CryptoListScreen
 import com.fkexample.cointicker.ui.mainlist.CryptoListViewModel
+import com.fkexample.cointicker.ui.theme.CoinTickerTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -26,16 +31,25 @@ class MainActivity : ComponentActivity() {
         connectivityManager.unregisterConnectionObserver(this)
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val viewModel: CryptoListViewModel = hiltViewModel()
-            val cryptos = viewModel.cryptos.value
-            val loading = viewModel.isLoading.value
-            val isNetworkAvailable = connectivityManager.isNetworkAvailable.value
+            val navController = rememberNavController()
+            val tickerViewModel: CryptoListViewModel = hiltViewModel()
+            val cryptos by tickerViewModel.cryptos.collectAsState()
+            val loading by tickerViewModel.isLoading.collectAsState()
+            val isNetworkAvailable by connectivityManager.isNetworkAvailable
 
-            CryptoListScreen(loading = loading, isNetworkAvailable = isNetworkAvailable, cryptos = cryptos, onCardClick = {}, onFavoriteClick = {})
+            CoinTickerTheme(isNetworkAvailable = isNetworkAvailable) {
+                TickerNavHost(
+                    navController = navController,
+                    loading = loading,
+                    cryptos = cryptos,
+                    onFavoriteClick = { tickerViewModel.onFavouriteClick() }
+                )
+
+            }
         }
     }
 }
-

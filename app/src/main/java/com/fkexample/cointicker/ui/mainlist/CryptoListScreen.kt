@@ -21,41 +21,41 @@ import com.fkexample.cointicker.presentation.models.Crypto
 import com.fkexample.cointicker.ui.CryptoCard
 import com.fkexample.cointicker.ui.LoadingCryptoListShimmer
 import com.fkexample.cointicker.ui.NothingHere
-import com.fkexample.cointicker.ui.theme.CoinTickerTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CryptoListScreen(
-    loading: Boolean, isNetworkAvailable: Boolean, cryptos: List<Crypto>, onCardClick: () -> Unit, onFavoriteClick: () -> Unit
+    loading: Boolean,
+    cryptos: List<Crypto>,
+    onCardClick: (crypto: Crypto) -> Unit,
+    onFavoriteClick: (crypto: Crypto) -> Unit
 ) {
-    CoinTickerTheme(isNetworkAvailable = isNetworkAvailable) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(text = stringResource(id = R.string.app_name))
-                    }, colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
-                )
-            }
-        ) { paddingValues ->
-            Box(
-                modifier = Modifier
-                    .background(color = MaterialTheme.colorScheme.surface)
-                    .padding(paddingValues)
-            ) {
-                if (loading && cryptos.isEmpty()) {
-                    LoadingCryptoListShimmer(imageHeight = 200.dp)
-                } else if (cryptos.isEmpty()) {
-                    NothingHere()
-                } else {
-                    LazyColumn(
-                        state = rememberLazyListState()
-                    ) {
-                        itemsIndexed(
-                            items = cryptos
-                        ) { _, crypto ->
-                            CryptoCard(crypto = crypto, onCardClick = onCardClick, onFavoriteClick = onFavoriteClick)
-                        }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = stringResource(id = R.string.app_name))
+                }, colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+            )
+        }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .background(color = MaterialTheme.colorScheme.surface)
+                .padding(paddingValues)
+        ) {
+            if (loading && cryptos.isEmpty()) {
+                LoadingCryptoListShimmer(imageHeight = 200.dp)
+            } else if (cryptos.isEmpty()) {
+                NothingHere()
+            } else {
+                LazyColumn(
+                    state = rememberLazyListState()
+                ) {
+                    itemsIndexed(
+                        items = cryptos
+                    ) { _, crypto ->
+                        CryptoCard(crypto = crypto, onCardClick = { onCardClick(crypto) }, onFavoriteClick = { onFavoriteClick(crypto) })
                     }
                 }
             }

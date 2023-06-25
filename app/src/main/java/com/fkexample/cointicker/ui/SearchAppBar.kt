@@ -45,27 +45,35 @@ fun SearchAppBar(
                         .weight(1f)
                         .padding(4.dp),
                     value = query,
-                    onValueChange = { onQueryChanged(it) },
+                    onValueChange = {
+                        onSearch(query)
+                        onQueryChanged(it)
+                    },
                     label = { Text(text = stringResource(id = R.string.search)) },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Search,
+                        imeAction = ImeAction.Done,
                     ),
                     keyboardActions = KeyboardActions(
-                        onSearch = {
-                            onSearch(query)
+                        onDone = {
                             keyboardController?.hide()
                         },
                     ),
                     leadingIcon = {
-                        IconButton(onClick = onBackClicked) {
+                        IconButton(onClick = {
+                            onSearch("")
+                            onBackClicked()
+                        }) {
                             Icon(Icons.Filled.ArrowBack, contentDescription = stringResource(id = R.string.cd_back_button))
                         }
                     },
                     trailingIcon = {
                         if (query.isNotEmpty()) {
                             IconButton(
-                                onClick = onClearClicked,
+                                onClick = {
+                                    onClearClicked()
+                                    onSearch("")
+                                },
                             ) {
                                 Icon(Icons.Rounded.Close, stringResource(id = R.string.cd_close_button))
                             }

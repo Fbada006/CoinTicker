@@ -3,11 +3,12 @@ package com.fkexample.cointicker.ui.mainlist
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
@@ -36,7 +37,7 @@ import com.fkexample.cointicker.ui.LoadingCryptoListShimmer
 import com.fkexample.cointicker.ui.NothingHere
 import com.fkexample.cointicker.ui.SearchAppBar
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun CryptoListScreen(
     loading: Boolean,
@@ -86,7 +87,10 @@ fun CryptoListScreen(
             ) {
                 SearchAppBar(
                     query = query,
-                    onBackClicked = { shouldShowSearch = false },
+                    onBackClicked = {
+                        query = ""
+                        shouldShowSearch = false
+                    },
                     onQueryChanged = { value -> query = value },
                     onSearch = onSearch,
                     onClearClicked = { query = "" }
@@ -105,12 +109,18 @@ fun CryptoListScreen(
                 NothingHere()
             } else {
                 LazyColumn(
-                    state = rememberLazyListState()
+                    state = rememberLazyListState(),
                 ) {
-                    itemsIndexed(
-                        items = cryptos
-                    ) { _, crypto ->
-                        CryptoCard(crypto = crypto, onCardClick = { onCardClick(crypto) }, onFavoriteClick = { onFavoriteClick(crypto) })
+                    items(
+                        items = cryptos,
+                        key = { crypto -> crypto.assetId }
+                    ) { crypto ->
+                        CryptoCard(
+                            crypto = crypto,
+                            onCardClick = { onCardClick(crypto) },
+                            onFavoriteClick = { onFavoriteClick(crypto) },
+                            modifier = Modifier.animateItemPlacement()
+                        )
                     }
                 }
             }

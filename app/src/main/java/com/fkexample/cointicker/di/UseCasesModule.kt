@@ -1,6 +1,7 @@
 package com.fkexample.cointicker.di
 
 import com.fkexample.cointicker.repo.CoinRepository
+import com.fkexample.cointicker.usecases.AddCoinToFavoriteUseCase
 import com.fkexample.cointicker.usecases.GetAllCoinsUseCase
 import dagger.Module
 import dagger.Provides
@@ -18,5 +19,13 @@ class UseCasesModule {
         repository: CoinRepository
     ): GetAllCoinsUseCase {
         return GetAllCoinsUseCase(repository)
+    }
+
+    @ViewModelScoped
+    @Provides
+    fun providesAddCoinToFavUseCase(
+        repository: CoinRepository
+    ): AddCoinToFavoriteUseCase {
+        return AddCoinToFavoriteUseCase(repository)
     }
 }

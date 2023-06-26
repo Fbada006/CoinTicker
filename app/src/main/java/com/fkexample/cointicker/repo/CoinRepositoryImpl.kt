@@ -26,8 +26,7 @@ class CoinRepositoryImpl(
                 val iconMap = icons.associateBy { icon -> icon.assetId }
                 val coins = tickerService.getAllCoins()
                 val coinsWithUrl = coins.map { coin ->
-                    val isFavorite = getFavById(coin.assetId) != null
-                    CryptoWithUrl(assetId = coin.assetId, name = coin.name, cryptoUrl = iconMap[coin.assetId]?.url, isFavorite = isFavorite)
+                    CryptoWithUrl(assetId = coin.assetId, name = coin.name, cryptoUrl = iconMap[coin.assetId]?.url)
                 }
 
                 coinDao.insertCoins(toEntityList(coinsWithUrl))

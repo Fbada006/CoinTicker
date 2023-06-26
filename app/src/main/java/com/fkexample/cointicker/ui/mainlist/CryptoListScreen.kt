@@ -118,7 +118,7 @@ fun CryptoListScreen(
                         CryptoCard(
                             crypto = crypto,
                             onCardClick = { onCardClick(crypto) },
-                            onFavoriteClick = { onFavoriteClick(crypto) },
+                            onFavoriteClick = onFavoriteClick,
                             modifier = Modifier.animateItemPlacement()
                         )
                     }

@@ -4,6 +4,6 @@ data class Crypto(
     val assetId: String,
     val name: String,
     val cryptoUrl: String?,
-    val timeAgo: String,
-    val isFavorite: Boolean
+    val dateCached: Long,
+    var isFavorite: Boolean = false
 )

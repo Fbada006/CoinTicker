@@ -18,7 +18,7 @@ interface CoinDao {
     suspend fun getAllCoins(): List<CryptoEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFavCoin(favEntity: CryptoFavEntity): LongArray
+    suspend fun insertFavCoin(favEntity: CryptoFavEntity)
 
     @Delete
     suspend fun deleteCoinFromFav(favEntity: CryptoFavEntity)

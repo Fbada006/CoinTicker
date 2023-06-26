@@ -26,7 +26,7 @@ fun TickerNavHost(
                 onCardClick = { crypto ->
                     navController.navigateToDetailScreen(crypto.assetId)
                 },
-                onFavoriteClick = { crypto -> onFavoriteClick(crypto) },
+                onFavoriteClick = onFavoriteClick,
                 onSearch = { query -> onSearch(query) }
             )
         }

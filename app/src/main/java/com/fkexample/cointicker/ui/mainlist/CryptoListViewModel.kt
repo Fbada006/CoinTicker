@@ -3,6 +3,7 @@ package com.fkexample.cointicker.ui.mainlist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fkexample.cointicker.ui.models.Crypto
+import com.fkexample.cointicker.usecases.AddCoinToFavoriteUseCase
 import com.fkexample.cointicker.usecases.GetAllCoinsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,10 +12,14 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class CryptoListViewModel @Inject constructor(private val getAllCoinsUseCase: GetAllCoinsUseCase) : ViewModel() {
+class CryptoListViewModel @Inject constructor(
+    private val getAllCoinsUseCase: GetAllCoinsUseCase,
+    private val addCoinToFavoriteUseCase: AddCoinToFavoriteUseCase
+) : ViewModel() {
 
     private val mutableCryptosState = MutableStateFlow(listOf<Crypto>())
     val cryptos = mutableCryptosState.asStateFlow()
@@ -43,7 +48,35 @@ class CryptoListViewModel @Inject constructor(private val getAllCoinsUseCase: Ge
     }
 
     fun onFavouriteClick(crypto: Crypto) {
-        TODO("Not yet implemented")
+        viewModelScope.launch {
+            try {
+                addCoinToFavoriteUseCase(crypto)
+                refreshList(crypto)
+            } catch (e: Exception) {
+                // We do not care about the error except to log it and the user will not get an updated UI
+                Timber.e("Error saving favourite $e")
+            }
+        }
+    }
+
+    /**
+     * This is a helper function to quickly modify the list and update the UI. Since it runs inside the try block of the
+     * method to add to favorites, we can know for sure that the file has already been saved without an exception to the db when this runs.
+     * Instead of querying the entire list, which makes for a bad jumping UI, we can go ahead and update the isFavourite property of the item
+     * added to favorites here, which creates a better animation effect on the UI.
+     *
+     * @param crypto is the item clicked on the UI
+     * */
+    private fun refreshList(crypto: Crypto) {
+        val cryptoList = mutableCryptosState.value.toMutableList()
+
+        if (cryptoList.contains(crypto)) {
+            val index = cryptoList.indexOf(crypto)
+
+            cryptoList[index] = crypto.copy(isFavorite = !crypto.isFavorite)
+
+            mutableCryptosState.value = cryptoList
+        }
     }
 
     fun onSearch(query: String) {

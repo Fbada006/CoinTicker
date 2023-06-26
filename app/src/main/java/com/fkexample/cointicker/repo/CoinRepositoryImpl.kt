@@ -41,6 +41,16 @@ class CoinRepositoryImpl(
         }.flowOn(dispatcher)
     }
 
+    override fun getAllCoinsFromDb(): Flow<List<CryptoEntity>> {
+        return flow {
+            try {
+                emit(coinDao.getAllCoins())
+            } catch (e: Exception) {
+                emit(emptyList())
+            }
+        }.flowOn(dispatcher)
+    }
+
     override suspend fun addOrRemoveFavCoin(favEntity: CryptoFavEntity) {
         val dbFav = getFavById(favEntity.assetId)
         if (dbFav != null) {

@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -44,7 +45,8 @@ fun CryptoListScreen(
     cryptos: List<Crypto>,
     onCardClick: (crypto: Crypto) -> Unit,
     onFavoriteClick: (crypto: Crypto) -> Unit,
-    onSearch: (query: String) -> Unit
+    onSearch: (query: String) -> Unit,
+    onFilterFavorites: () -> Unit
 ) {
 
     var shouldShowSearch by remember { mutableStateOf(false) }
@@ -65,6 +67,14 @@ fun CryptoListScreen(
                         Text(text = stringResource(id = R.string.app_name))
                     }, colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
                     actions = {
+                        IconButton(
+                            onClick = onFilterFavorites,
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .padding(end = 8.dp)
+                        ) {
+                            Icon(Icons.Rounded.Favorite, stringResource(id = R.string.cd_favorite_icon), tint = MaterialTheme.colorScheme.tertiary)
+                        }
                         IconButton(
                             onClick = { shouldShowSearch = true },
                             modifier = Modifier

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.fkexample.cointicker.ui.models.Crypto
 import com.fkexample.cointicker.usecases.AddCoinToFavoriteUseCase
 import com.fkexample.cointicker.usecases.GetAllCoinsUseCase
+import com.fkexample.cointicker.usecases.GetAllFavoriteCoinsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,15 +19,20 @@ import javax.inject.Inject
 @HiltViewModel
 class CryptoListViewModel @Inject constructor(
     private val getAllCoinsUseCase: GetAllCoinsUseCase,
-    private val addCoinToFavoriteUseCase: AddCoinToFavoriteUseCase
+    private val addCoinToFavoriteUseCase: AddCoinToFavoriteUseCase,
+    private val getAllFavoriteCoinsUseCase: GetAllFavoriteCoinsUseCase
 ) : ViewModel() {
 
     private val mutableCryptosState = MutableStateFlow(listOf<Crypto>())
     val cryptos = mutableCryptosState.asStateFlow()
 
+    private val mutableFavCryptosState = MutableStateFlow(listOf<Crypto>())
+    val favCryptos = mutableFavCryptosState.asStateFlow()
+
     private val mutableIsLoadingState = MutableStateFlow(false)
     val isLoading = mutableIsLoadingState.asStateFlow()
 
+    // Keep track of the original loaded list before search
     private val originalCryptoList = mutableListOf<Crypto>()
 
     init {
@@ -42,7 +48,21 @@ class CryptoListViewModel @Inject constructor(
             }
 
             dataState.error?.let {
+                // Handle this
+            }
+        }.launchIn(viewModelScope)
+    }
 
+    fun getAllFavoriteCoins() {
+        getAllFavoriteCoinsUseCase().onEach { dataState ->
+            mutableIsLoadingState.value = dataState.loading
+
+            dataState.data?.let { list ->
+                mutableFavCryptosState.value = list
+            }
+
+            dataState.error?.let {
+                // Handle this
             }
         }.launchIn(viewModelScope)
     }

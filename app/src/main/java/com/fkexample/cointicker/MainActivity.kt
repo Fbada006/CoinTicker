@@ -36,6 +36,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val tickerViewModel: CryptoListViewModel = hiltViewModel()
             val cryptos by tickerViewModel.cryptos.collectAsState()
+            val favCryptos by tickerViewModel.favCryptos.collectAsState()
             val loading by tickerViewModel.isLoading.collectAsState()
             val isNetworkAvailable by connectivityManager.isNetworkAvailable
 
@@ -45,7 +46,9 @@ class MainActivity : ComponentActivity() {
                     loading = loading,
                     cryptos = cryptos,
                     onFavoriteClick = { crypto -> tickerViewModel.onFavouriteClick(crypto) },
-                    onSearch = { query -> tickerViewModel.onSearch(query) }
+                    onSearch = { query -> tickerViewModel.onSearch(query) },
+                    favCryptos = favCryptos,
+                    onFavListComposableCreated = { tickerViewModel.getAllFavoriteCoins() }
                 )
             }
         }

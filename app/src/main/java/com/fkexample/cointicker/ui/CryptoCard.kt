@@ -23,7 +23,13 @@ import com.fkexample.cointicker.ui.models.Crypto
 import com.fkexample.cointicker.utils.DateUtils
 
 @Composable
-fun CryptoCard(crypto: Crypto, onCardClick: () -> Unit, onFavoriteClick: (crypto: Crypto) -> Unit, modifier: Modifier) {
+fun CryptoCard(
+    crypto: Crypto,
+    shouldShowFavIcon: Boolean = true,
+    onCardClick: () -> Unit,
+    onFavoriteClick: (crypto: Crypto) -> Unit = {},
+    modifier: Modifier
+) {
 
     Card(
         shape = RoundedCornerShape(8.dp),
@@ -51,7 +57,9 @@ fun CryptoCard(crypto: Crypto, onCardClick: () -> Unit, onFavoriteClick: (crypto
                 )
             }
 
-            LikeToggleButton(isFav = crypto.isFavorite, onFavorite = { onFavoriteClick(crypto) })
+            if (shouldShowFavIcon) {
+                LikeToggleButton(isFav = crypto.isFavorite, onFavorite = { onFavoriteClick(crypto) })
+            }
         }
     }
 }

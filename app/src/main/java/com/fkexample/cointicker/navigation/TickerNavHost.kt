@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.fkexample.cointicker.ui.details.CryptoDetailsScreen
+import com.fkexample.cointicker.ui.favorites.FavoritesListScreen
 import com.fkexample.cointicker.ui.mainlist.CryptoListScreen
 import com.fkexample.cointicker.ui.models.Crypto
 
@@ -14,8 +15,10 @@ fun TickerNavHost(
     navController: NavHostController,
     loading: Boolean,
     cryptos: List<Crypto>,
+    favCryptos: List<Crypto>,
     onFavoriteClick: (crypto: Crypto) -> Unit,
     onSearch: (query: String) -> Unit,
+    onFavListComposableCreated: () -> Unit
 ) {
 
     NavHost(navController = navController, startDestination = MainScreen.route) {
@@ -24,10 +27,13 @@ fun TickerNavHost(
                 loading = loading,
                 cryptos = cryptos,
                 onCardClick = { crypto ->
-                    navController.navigateToDetailScreen(crypto.assetId)
+                    navController.navigateToDetailScreen(assetId = crypto.assetId)
                 },
                 onFavoriteClick = onFavoriteClick,
-                onSearch = { query -> onSearch(query) }
+                onSearch = { query -> onSearch(query) },
+                onFilterFavorites = {
+                    navController.navigateSingleTopTo(FavoritesScreen.route)
+                }
             )
         }
         composable(
@@ -38,6 +44,15 @@ fun TickerNavHost(
                 navBackStackEntry.arguments?.getString(DetailScreen.coinIdArg)
 
             CryptoDetailsScreen(assetId = assetId, onNavBack = { navController.navigateUp() })
+        }
+        composable(
+            route = FavoritesScreen.route
+        ) {
+            FavoritesListScreen(loading = loading, favCryptos = favCryptos, onCardClick = { crypto ->
+                navController.navigateToDetailScreen(assetId = crypto.assetId)
+            }, onNavBack = {
+                navController.navigateUp()
+            }, onFavListComposableCreated = onFavListComposableCreated)
         }
     }
 }

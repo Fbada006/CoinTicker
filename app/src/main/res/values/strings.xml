@@ -15,5 +15,6 @@
     <string name="cd_back_button">Back button</string>
     <string name="toggle_size">Like button toggle size</string>
     <string name="favourite">Favourite</string>
+    <string name="favourites_label">Favourite Coins</string>
     <string name="toggle_label">Like button toggle label</string>
 </resources>

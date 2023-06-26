@@ -13,6 +13,10 @@ fun fromEntityList(data: List<CryptoEntity>): List<Crypto> {
     return data.map { cryptoEntity -> mapToPresentationModel(cryptoEntity) }
 }
 
+fun fromFavEntityList(data: List<CryptoFavEntity>): List<Crypto> {
+    return data.map { cryptoEntity -> favEntityToPresentationModel(cryptoEntity) }
+}
+
 private fun mapFromDomainModel(model: CryptoWithUrl) =
     CryptoEntity(
         assetId = model.assetId,
@@ -34,7 +38,7 @@ fun favEntityToPresentationModel(model: CryptoFavEntity) =
         assetId = model.assetId,
         name = model.name,
         cryptoUrl = model.cryptoUrl,
-        dateCached = model.dateCached,
+        dateCached = model.dateCached
     )
 
 fun presentationModelToFavEntity(model: Crypto) =

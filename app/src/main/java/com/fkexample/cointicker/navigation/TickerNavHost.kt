@@ -5,9 +5,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.fkexample.cointicker.presentation.models.Crypto
 import com.fkexample.cointicker.ui.details.CryptoDetailsScreen
 import com.fkexample.cointicker.ui.mainlist.CryptoListScreen
+import com.fkexample.cointicker.ui.models.Crypto
 
 @Composable
 fun TickerNavHost(

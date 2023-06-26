@@ -2,7 +2,7 @@ package com.fkexample.cointicker.ui.mainlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fkexample.cointicker.presentation.models.Crypto
+import com.fkexample.cointicker.ui.models.Crypto
 import com.fkexample.cointicker.usecases.GetAllCoinsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

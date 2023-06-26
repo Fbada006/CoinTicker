@@ -1,8 +1,8 @@
 package com.fkexample.cointicker.usecases
 
 import com.fkexample.cointicker.mappers.fromEntityList
-import com.fkexample.cointicker.presentation.models.Crypto
 import com.fkexample.cointicker.repo.CoinRepository
+import com.fkexample.cointicker.ui.models.Crypto
 import com.fkexample.cointicker.utils.DataState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

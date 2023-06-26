@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.fkexample.cointicker.R
-import com.fkexample.cointicker.presentation.models.Crypto
+import com.fkexample.cointicker.ui.models.Crypto
 
 @Composable
 fun CryptoCard(crypto: Crypto, onCardClick: () -> Unit, onFavoriteClick: () -> Unit, modifier: Modifier) {

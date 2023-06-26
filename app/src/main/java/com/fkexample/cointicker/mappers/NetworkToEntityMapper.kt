@@ -1,8 +1,8 @@
 package com.fkexample.cointicker.mappers
 
 import com.fkexample.cointicker.cache.models.CryptoEntity
-import com.fkexample.cointicker.presentation.models.Crypto
 import com.fkexample.cointicker.repo.models.CryptoWithUrl
+import com.fkexample.cointicker.ui.models.Crypto
 import com.fkexample.cointicker.utils.DateUtils
 
 fun toEntityList(data: List<CryptoWithUrl>): List<CryptoEntity> {
@@ -14,7 +14,19 @@ fun fromEntityList(data: List<CryptoEntity>): List<Crypto> {
 }
 
 private fun mapFromDomainModel(model: CryptoWithUrl) =
-    CryptoEntity(assetId = model.assetId, name = model.name, cryptoUrl = model.cryptoUrl, dateCached = System.currentTimeMillis())
+    CryptoEntity(
+        assetId = model.assetId,
+        name = model.name,
+        cryptoUrl = model.cryptoUrl,
+        dateCached = System.currentTimeMillis(),
+        isFavorite = model.isFavorite
+    )
 
 private fun mapToPresentationModel(model: CryptoEntity) =
-    Crypto(assetId = model.assetId, name = model.name, cryptoUrl = model.cryptoUrl, timeAgo = DateUtils.getTimeAgo(model.dateCached))
+    Crypto(
+        assetId = model.assetId,
+        name = model.name,
+        cryptoUrl = model.cryptoUrl,
+        timeAgo = DateUtils.getTimeAgo(model.dateCached),
+        isFavorite = model.isFavorite
+    )

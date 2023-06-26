@@ -2,6 +2,7 @@ package com.fkexample.cointicker.repo
 
 import com.fkexample.cointicker.cache.CoinDao
 import com.fkexample.cointicker.cache.models.CryptoEntity
+import com.fkexample.cointicker.cache.models.CryptoFavEntity
 import com.fkexample.cointicker.mappers.toEntityList
 import com.fkexample.cointicker.network.TickerService
 import com.fkexample.cointicker.repo.models.CryptoWithUrl
@@ -25,7 +26,8 @@ class CoinRepositoryImpl(
                 val iconMap = icons.associateBy { icon -> icon.assetId }
                 val coins = tickerService.getAllCoins()
                 val coinsWithUrl = coins.map { coin ->
-                    CryptoWithUrl(assetId = coin.assetId, name = coin.name, cryptoUrl = iconMap[coin.assetId]?.url)
+                    val isFavorite = getFavById(coin.assetId) != null
+                    CryptoWithUrl(assetId = coin.assetId, name = coin.name, cryptoUrl = iconMap[coin.assetId]?.url, isFavorite = isFavorite)
                 }
 
                 coinDao.insertCoins(toEntityList(coinsWithUrl))
@@ -38,5 +40,30 @@ class CoinRepositoryImpl(
             emit(coinDao.getAllCoins())
 
         }.flowOn(dispatcher)
+    }
+
+    override suspend fun addOrRemoveFavCoin(favEntity: CryptoFavEntity) {
+        val dbFav = getFavById(favEntity.assetId)
+        if (dbFav != null) {
+            // This is a favorite already so remove it from the favorites
+            coinDao.deleteCoinFromFav(favEntity)
+        } else {
+            coinDao.insertFavCoin(favEntity)
+        }
+    }
+
+    override suspend fun getAllFavoriteCoins(): Flow<List<CryptoFavEntity>> {
+        return flow {
+            try {
+                emit(coinDao.getAllFavoriteCoins())
+            } catch (e: Exception) {
+                Timber.d(e)
+                emit(emptyList())
+            }
+        }.flowOn(dispatcher)
+    }
+
+    override suspend fun getFavById(assetId: String): CryptoFavEntity? {
+        return coinDao.getFavById(assetId)
     }
 }

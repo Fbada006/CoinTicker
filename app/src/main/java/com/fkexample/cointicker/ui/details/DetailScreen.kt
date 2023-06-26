@@ -30,7 +30,7 @@ fun CryptoDetailsScreen(
             TopAppBar(
                 navigationIcon = {
                     IconButton(onClick = onNavBack) {
-                        Icon(Icons.Rounded.ArrowBack, stringResource(id = R.string.cd_back_button))
+                        Icon(Icons.Rounded.ArrowBack, stringResource(id = R.string.cd_close_button))
                     }
                 },
                 title = {

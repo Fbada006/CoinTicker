@@ -28,14 +28,14 @@ import com.fkexample.cointicker.R
 import com.fkexample.cointicker.presentation.models.Crypto
 
 @Composable
-fun CryptoCard(crypto: Crypto, onCardClick: () -> Unit, onFavoriteClick: () -> Unit) {
+fun CryptoCard(crypto: Crypto, onCardClick: () -> Unit, onFavoriteClick: () -> Unit, modifier: Modifier) {
 
     val interactionSource = remember { MutableInteractionSource() }
     val rippleColor = rememberRipple(bounded = false)
 
     Card(
         shape = RoundedCornerShape(8.dp),
-        modifier = Modifier
+        modifier = modifier
             .padding(6.dp)
             .clickable {
                 onCardClick()

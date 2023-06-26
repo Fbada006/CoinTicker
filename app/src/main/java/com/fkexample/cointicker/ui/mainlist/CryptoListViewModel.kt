@@ -23,7 +23,6 @@ class CryptoListViewModel @Inject constructor(private val getAllCoinsUseCase: Ge
     val isLoading = mutableIsLoadingState.asStateFlow()
 
     private val originalCryptoList = mutableListOf<Crypto>()
-    private val itemIndexMap: MutableMap<String, Int> = mutableMapOf()
 
     init {
         getAllCoins()
@@ -51,10 +50,6 @@ class CryptoListViewModel @Inject constructor(private val getAllCoinsUseCase: Ge
         val filteredListFlow = flow {
             if (originalCryptoList.isEmpty()) {
                 originalCryptoList.addAll(mutableCryptosState.value)
-                itemIndexMap.clear()
-                originalCryptoList.forEachIndexed { index, item ->
-                    itemIndexMap[item.name] = index
-                }
             }
 
             val filteredList = if (query.isNotEmpty()) {
@@ -68,7 +63,7 @@ class CryptoListViewModel @Inject constructor(private val getAllCoinsUseCase: Ge
 
         viewModelScope.launch {
             filteredListFlow.collect { filteredList ->
-                mutableCryptosState.value = filteredList.sortedBy { itemIndexMap[it.name] }
+                mutableCryptosState.value = filteredList
             }
         }
     }

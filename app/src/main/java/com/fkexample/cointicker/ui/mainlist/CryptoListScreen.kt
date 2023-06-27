@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -31,11 +32,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fkexample.cointicker.R
-import com.fkexample.cointicker.presentation.models.Crypto
 import com.fkexample.cointicker.ui.CryptoCard
 import com.fkexample.cointicker.ui.LoadingCryptoListShimmer
 import com.fkexample.cointicker.ui.NothingHere
 import com.fkexample.cointicker.ui.SearchAppBar
+import com.fkexample.cointicker.ui.models.Crypto
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -44,7 +45,8 @@ fun CryptoListScreen(
     cryptos: List<Crypto>,
     onCardClick: (crypto: Crypto) -> Unit,
     onFavoriteClick: (crypto: Crypto) -> Unit,
-    onSearch: (query: String) -> Unit
+    onSearch: (query: String) -> Unit,
+    onFilterFavorites: () -> Unit
 ) {
 
     var shouldShowSearch by remember { mutableStateOf(false) }
@@ -65,6 +67,14 @@ fun CryptoListScreen(
                         Text(text = stringResource(id = R.string.app_name))
                     }, colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
                     actions = {
+                        IconButton(
+                            onClick = onFilterFavorites,
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .padding(end = 8.dp)
+                        ) {
+                            Icon(Icons.Rounded.Favorite, stringResource(id = R.string.cd_favorite_icon), tint = MaterialTheme.colorScheme.tertiary)
+                        }
                         IconButton(
                             onClick = { shouldShowSearch = true },
                             modifier = Modifier
@@ -118,7 +128,7 @@ fun CryptoListScreen(
                         CryptoCard(
                             crypto = crypto,
                             onCardClick = { onCardClick(crypto) },
-                            onFavoriteClick = { onFavoriteClick(crypto) },
+                            onFavoriteClick = onFavoriteClick,
                             modifier = Modifier.animateItemPlacement()
                         )
                     }

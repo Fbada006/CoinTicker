@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "coins")
-data class CryptoEntity(
+@Entity(tableName = "fav_coins")
+data class CryptoFavEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "asset_id")
     val assetId: String,
@@ -13,5 +13,5 @@ data class CryptoEntity(
     @ColumnInfo(name = "crypto_url")
     val cryptoUrl: String?,
     @ColumnInfo(name = "date_cached")
-    val dateCached: Long
+    val dateCached: Long,
 )

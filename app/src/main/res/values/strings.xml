@@ -17,4 +17,5 @@
     <string name="favourite">Favourite</string>
     <string name="favourites_label">Favourite Coins</string>
     <string name="toggle_label">Like button toggle label</string>
+    <string name="something_went_wrong_please_try_again">Something went wrong. Please try again!</string>
 </resources>

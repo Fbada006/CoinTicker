@@ -39,6 +39,8 @@ class MainActivity : ComponentActivity() {
             val favCryptos by tickerViewModel.favCryptos.collectAsState()
             val loading by tickerViewModel.isLoading.collectAsState()
             val isNetworkAvailable by connectivityManager.isNetworkAvailable
+            val details by tickerViewModel.detailCryptosState.collectAsState()
+            val error by tickerViewModel.error.collectAsState()
 
             CoinTickerTheme(isNetworkAvailable = isNetworkAvailable) {
                 TickerNavHost(
@@ -48,7 +50,10 @@ class MainActivity : ComponentActivity() {
                     onFavoriteClick = { crypto -> tickerViewModel.onFavouriteClick(crypto) },
                     onSearch = { query -> tickerViewModel.onSearch(query) },
                     favCryptos = favCryptos,
-                    onFavListComposableCreated = { tickerViewModel.getAllFavoriteCoins() }
+                    onFavListComposableCreated = { tickerViewModel.getAllFavoriteCoins() },
+                    details = details,
+                    getCoinDetails = { assetId -> tickerViewModel.getCoinDetails(assetId) },
+                    error = error
                 )
             }
         }

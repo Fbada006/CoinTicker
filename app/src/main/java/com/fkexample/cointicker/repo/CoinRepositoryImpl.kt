@@ -6,6 +6,7 @@ import com.fkexample.cointicker.cache.models.CryptoFavEntity
 import com.fkexample.cointicker.mappers.toEntityList
 import com.fkexample.cointicker.network.TickerService
 import com.fkexample.cointicker.repo.models.CryptoWithUrl
+import com.fkexample.cointicker.ui.models.CryptoDetails
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -33,7 +34,7 @@ class CoinRepositoryImpl(
             } catch (e: Exception) {
                 // Something went wrong with the query to the API
                 // Log the error and proceed
-                Timber.d(e)
+                Timber.e(e)
             }
 
             emit(coinDao.getAllCoins())
@@ -66,7 +67,7 @@ class CoinRepositoryImpl(
             try {
                 emit(coinDao.getAllFavoriteCoins())
             } catch (e: Exception) {
-                Timber.d(e)
+                Timber.e(e)
                 emit(emptyList())
             }
         }.flowOn(dispatcher)
@@ -74,5 +75,34 @@ class CoinRepositoryImpl(
 
     override suspend fun getFavById(assetId: String): CryptoFavEntity? {
         return coinDao.getFavById(assetId)
+    }
+
+    override suspend fun getCoinDetails(assetId: String): Flow<CryptoDetails?> {
+        return flow {
+            try {
+                val data = tickerService.getCoinDetails(assetId).first()
+                val localCoinData = coinDao.getCoinById(assetId)
+
+                val details = if (localCoinData != null && data.assetId == assetId) {
+                    CryptoDetails(
+                        name = localCoinData.name,
+                        dateCached = localCoinData.dateCached,
+                        url = localCoinData.cryptoUrl,
+                        priceUsd = data.priceUsd
+                    )
+                } else {
+                    null
+                }
+
+                emit(details)
+            } catch (e: Exception) {
+                emit(null)
+                Timber.e(e)
+            }
+        }.flowOn(dispatcher)
+    }
+
+    override suspend fun getCoinById(assetId: String): CryptoEntity? {
+        return coinDao.getCoinById(assetId)
     }
 }

@@ -18,10 +18,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fkexample.cointicker.R
@@ -43,16 +47,20 @@ import com.fkexample.cointicker.ui.models.Crypto
 fun CryptoListScreen(
     loading: Boolean,
     cryptos: List<Crypto>,
+    error: Throwable?,
     onCardClick: (crypto: Crypto) -> Unit,
     onFavoriteClick: (crypto: Crypto) -> Unit,
     onSearch: (query: String) -> Unit,
     onFilterFavorites: () -> Unit
 ) {
 
+    val snackbarHostState = remember { SnackbarHostState() }
     var shouldShowSearch by remember { mutableStateOf(false) }
     var query by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             AnimatedVisibility(
                 visible = !shouldShowSearch,
@@ -133,6 +141,12 @@ fun CryptoListScreen(
                         )
                     }
                 }
+            }
+
+            error?.let {
+                LaunchedEffect(key1 = snackbarHostState, block = {
+                    snackbarHostState.showSnackbar(context.getString(R.string.something_went_wrong_please_try_again))
+                })
             }
         }
     }

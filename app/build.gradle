@@ -104,6 +104,8 @@ dependencies {
     testImplementation "androidx.test.ext:junit-ktx:$rootProject.jUnitExtVersion"
     testImplementation "com.google.truth:truth:$rootProject.truthVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    testImplementation "app.cash.turbine:turbine:$rootProject.turbineVersion"
+    testImplementation "io.mockk:mockk:$rootProject.mockkVersion"
 
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoCoreVersion"
     androidTestImplementation platform("androidx.compose:compose-bom:$rootProject.composeBomVersion")

@@ -26,6 +26,8 @@ buildscript {
         roboelectricVersion = '4.10.3'
         truthVersion = '1.1.5'
         coroutinesVersion = '1.7.1'
+        mockkVersion = '1.13.5'
+        turbineVersion = '1.0.0'
     }
 }
 

@@ -98,6 +98,13 @@ dependencies {
 
     testImplementation "junit:junit:$rootProject.jUnitVersion"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.jUnitExtVersion"
+    testImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
+    testImplementation "androidx.test:runner:$rootProject.androidxTestRunnerVersion"
+    testImplementation "org.robolectric:robolectric:$rootProject.roboelectricVersion"
+    testImplementation "androidx.test.ext:junit-ktx:$rootProject.jUnitExtVersion"
+    testImplementation "com.google.truth:truth:$rootProject.truthVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoCoreVersion"
     androidTestImplementation platform("androidx.compose:compose-bom:$rootProject.composeBomVersion")
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'

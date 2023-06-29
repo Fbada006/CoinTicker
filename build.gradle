@@ -12,6 +12,15 @@ buildscript {
         coreKtxVersion = "1.10.1"
         lifecyleRuntimeKtxVersion = "2.6.1"
         viewmodelComposeVersion = '2.6.1'
+        composeMaterialVersion = '1.2.0-alpha02'
+        composeBomVersion = '2022.10.00'
+        navigationComposeVersion = '1.0.0'
+        composeActivityVersion = '1.7.2'
+        kotlinBomVersion = '1.8.0'
+
+        jUnitExtVersion = '1.1.5'
+        jUnitVersion = '4.13.2'
+        espressoCoreVersion = '3.5.1'
     }
 }
 

@@ -1,4 +1,4 @@
-package com.fkexample.cointicker.ui
+package com.fkexample.cointicker.ui.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

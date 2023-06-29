@@ -23,9 +23,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fkexample.cointicker.R
-import com.fkexample.cointicker.ui.CryptoCard
-import com.fkexample.cointicker.ui.LoadingCryptoListShimmer
-import com.fkexample.cointicker.ui.NothingHere
+import com.fkexample.cointicker.ui.composables.CryptoCard
+import com.fkexample.cointicker.ui.composables.LoadingCryptoListShimmer
+import com.fkexample.cointicker.ui.composables.NothingHere
 import com.fkexample.cointicker.ui.models.Crypto
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)

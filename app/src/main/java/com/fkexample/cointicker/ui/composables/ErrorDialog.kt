@@ -1,4 +1,4 @@
-package com.fkexample.cointicker.ui
+package com.fkexample.cointicker.ui.composables
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text

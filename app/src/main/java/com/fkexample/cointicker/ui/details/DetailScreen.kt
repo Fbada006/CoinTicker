@@ -33,9 +33,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fkexample.cointicker.R
-import com.fkexample.cointicker.ui.CryptoImage
-import com.fkexample.cointicker.ui.ErrorDialog
-import com.fkexample.cointicker.ui.LoadingCryptoListShimmer
+import com.fkexample.cointicker.ui.composables.CryptoImage
+import com.fkexample.cointicker.ui.composables.ErrorDialog
+import com.fkexample.cointicker.ui.composables.LoadingCryptoListShimmer
 import com.fkexample.cointicker.ui.models.CryptoDetails
 import com.fkexample.cointicker.ui.theme.detailsDisplayTitleStyle
 import com.fkexample.cointicker.utils.DateUtils

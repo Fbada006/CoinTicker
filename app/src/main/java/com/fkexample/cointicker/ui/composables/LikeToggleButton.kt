@@ -1,4 +1,4 @@
-package com.fkexample.cointicker.ui
+package com.fkexample.cointicker.ui.composables
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.FastOutLinearInEasing

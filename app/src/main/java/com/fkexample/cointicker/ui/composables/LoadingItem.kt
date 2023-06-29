@@ -1,4 +1,4 @@
-package com.fkexample.cointicker.ui
+package com.fkexample.cointicker.ui.composables
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

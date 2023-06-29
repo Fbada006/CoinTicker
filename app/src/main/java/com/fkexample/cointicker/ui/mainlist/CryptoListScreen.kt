@@ -32,11 +32,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fkexample.cointicker.R
-import com.fkexample.cointicker.ui.CryptoCard
-import com.fkexample.cointicker.ui.ErrorDialog
-import com.fkexample.cointicker.ui.LoadingCryptoListShimmer
-import com.fkexample.cointicker.ui.NothingHere
-import com.fkexample.cointicker.ui.SearchAppBar
+import com.fkexample.cointicker.ui.composables.CryptoCard
+import com.fkexample.cointicker.ui.composables.ErrorDialog
+import com.fkexample.cointicker.ui.composables.LoadingCryptoListShimmer
+import com.fkexample.cointicker.ui.composables.NothingHere
+import com.fkexample.cointicker.ui.composables.SearchAppBar
 import com.fkexample.cointicker.ui.models.Crypto
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)

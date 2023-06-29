@@ -22,4 +22,7 @@
     <string name="coin_symbol_label">Coin Symbol</string>
     <string name="last_updated_label">Last Updated</string>
     <string name="okay">Okay</string>
+    <string name="euro_exchange_rate_label">Euro Exchange Rate</string>
+    <string name="british_pound_exchange_rate_label">British Pound Exchange Rate</string>
+    <string name="exchange_rates_label">Exchange Rates</string>
 </resources>

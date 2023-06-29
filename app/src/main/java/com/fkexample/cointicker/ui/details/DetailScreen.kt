@@ -139,10 +139,18 @@ fun CryptoDetailsScreen(
                             Column(
                                 modifier = Modifier.padding(16.dp)
                             ) {
+                                Text(
+                                    text = stringResource(R.string.exchange_rates_label), style = TextStyle(
+                                        fontSize = 24.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+
                                 Row {
                                     Column {
                                         Text(
-                                            text = "Euro Exchange Rate", style = detailsDisplayTitleStyle
+                                            text = stringResource(R.string.euro_exchange_rate_label), style = detailsDisplayTitleStyle
                                         )
                                         Text(text = details.euroToAssetRate.toString())
                                     }
@@ -151,7 +159,7 @@ fun CryptoDetailsScreen(
                                 Row {
                                     Column {
                                         Text(
-                                            text = "British Pound Exchange Rate", style = detailsDisplayTitleStyle
+                                            text = stringResource(R.string.british_pound_exchange_rate_label), style = detailsDisplayTitleStyle
                                         )
                                         Text(text = details.gbpToAssetRate.toString())
                                     }
@@ -163,7 +171,10 @@ fun CryptoDetailsScreen(
             }
 
             error?.let {
-                ErrorDialog(dismissError = dismissError)
+                ErrorDialog(dismissError = {
+                    onNavBack()
+                    dismissError()
+                })
             }
         }
     }

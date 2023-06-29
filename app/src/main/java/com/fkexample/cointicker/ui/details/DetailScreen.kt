@@ -39,7 +39,6 @@ import com.fkexample.cointicker.ui.composables.ErrorDialog
 import com.fkexample.cointicker.ui.composables.LoadingCryptoListShimmer
 import com.fkexample.cointicker.ui.models.CryptoDetails
 import com.fkexample.cointicker.ui.theme.detailsDisplayTitleStyle
-import com.fkexample.cointicker.utils.DateUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -112,12 +111,6 @@ fun CryptoDetailsScreen(
                                             text = stringResource(R.string.coin_symbol_label), style = detailsDisplayTitleStyle
                                         )
                                         Text(text = assetId)
-                                    }
-                                    Column(modifier = Modifier.weight(1f)) {
-                                        Text(
-                                            text = stringResource(R.string.last_updated_label), style = detailsDisplayTitleStyle
-                                        )
-                                        Text(text = DateUtils.getTimeAgo(details.dateCached))
                                     }
                                 }
                                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_16)))

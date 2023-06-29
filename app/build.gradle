@@ -58,15 +58,15 @@ dependencies {
     implementation "androidx.core:core-ktx:$rootProject.coreKtxVersion"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.lifecyleRuntimeKtxVersion"
 
-    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')
-    implementation 'androidx.activity:activity-compose:1.7.2'
-    implementation platform('androidx.compose:compose-bom:2022.10.00')
+    implementation platform("org.jetbrains.kotlin:kotlin-bom:$rootProject.kotlinBomVersion")
+    implementation "androidx.activity:activity-compose:$rootProject.composeActivityVersion"
+    implementation platform("androidx.compose:compose-bom:$rootProject.composeBomVersion")
     implementation 'androidx.compose.ui:ui'
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'
     implementation "androidx.navigation:navigation-compose"
-    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
-    implementation 'androidx.compose.material3:material3:1.2.0-alpha02'
+    implementation "androidx.hilt:hilt-navigation-compose:$rootProject.navigationComposeVersion"
+    implementation "androidx.compose.material3:material3:$rootProject.composeMaterialVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$rootProject.viewmodelComposeVersion"
 
     // Retrofit
@@ -96,10 +96,10 @@ dependencies {
     //Coil
     implementation "io.coil-kt:coil-compose:$rootProject.coilVersion"
 
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
+    testImplementation "junit:junit:$rootProject.jUnitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.jUnitExtVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoCoreVersion"
+    androidTestImplementation platform("androidx.compose:compose-bom:$rootProject.composeBomVersion")
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'

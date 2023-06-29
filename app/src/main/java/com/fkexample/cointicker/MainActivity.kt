@@ -53,7 +53,8 @@ class MainActivity : ComponentActivity() {
                     onFavListComposableCreated = { tickerViewModel.getAllFavoriteCoins() },
                     details = details,
                     getCoinDetails = { assetId -> tickerViewModel.getCoinDetails(assetId) },
-                    error = error
+                    error = error,
+                    dismissError = { tickerViewModel.dismissError() }
                 )
             }
         }

@@ -142,4 +142,8 @@ class CryptoListViewModel @Inject constructor(
         super.onCleared()
         originalCryptoList.clear()
     }
+
+    fun dismissError() {
+        mutableErrorState.value = null
+    }
 }

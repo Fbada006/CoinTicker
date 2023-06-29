@@ -4,34 +4,41 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.fkexample.cointicker.R
 import com.fkexample.cointicker.ui.CryptoImage
+import com.fkexample.cointicker.ui.ErrorDialog
 import com.fkexample.cointicker.ui.LoadingCryptoListShimmer
 import com.fkexample.cointicker.ui.models.CryptoDetails
-import timber.log.Timber
+import com.fkexample.cointicker.ui.theme.detailsDisplayTitleStyle
+import com.fkexample.cointicker.utils.DateUtils
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,19 +48,17 @@ fun CryptoDetailsScreen(
     details: CryptoDetails?,
     error: Throwable?,
     onNavBack: () -> Unit,
-    getCoinDetails: (assetId: String) -> Unit
+    getCoinDetails: (assetId: String) -> Unit,
+    dismissError: () -> Unit
 ) {
 
-    LaunchedEffect(key1 = Unit, block = {
+    LaunchedEffect(key1 = assetId, block = {
         getCoinDetails(assetId)
     })
 
-    val snackbarHostState = remember { SnackbarHostState() }
-    val context = LocalContext.current
     val scrollState = rememberScrollState()
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 navigationIcon = {
@@ -71,27 +76,94 @@ fun CryptoDetailsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .scrollable(state = scrollState, orientation = Orientation.Vertical)
-                .padding(paddingValues = paddingValues),
-            contentAlignment = Alignment.Center
+                .padding(paddingValues = paddingValues)
         ) {
             if (loading) {
                 LoadingCryptoListShimmer(imageHeight = 200.dp)
             } else {
-                Timber.e("Details ----------      $details")
                 Column {
                     if (details != null) {
-                        CryptoImage(imageUrl = details.url)
-                        Text(text = details.name)
-                        Text(text = details.dateCached.toString())
-                        Text(text = details.url.toString())
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(16.dp)
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    CryptoImage(imageUrl = details.url)
+                                    Spacer(modifier = Modifier.width(16.dp))
+                                    Text(
+                                        text = details.name,
+                                        style = TextStyle(
+                                            fontSize = 24.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Row {
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = stringResource(R.string.coin_symbol_label), style = detailsDisplayTitleStyle
+                                        )
+                                        Text(text = assetId)
+                                    }
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = stringResource(R.string.last_updated_label), style = detailsDisplayTitleStyle
+                                        )
+                                        Text(text = DateUtils.getTimeAgo(details.dateCached))
+                                    }
+                                }
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Row {
+                                    Column {
+                                        Text(
+                                            text = stringResource(R.string.usd_price_label), style = detailsDisplayTitleStyle
+                                        )
+                                        Text(text = details.priceUsd.toString())
+                                    }
+                                }
+                            }
+                        }
+
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(16.dp)
+                            ) {
+                                Row {
+                                    Column {
+                                        Text(
+                                            text = "Euro Exchange Rate", style = detailsDisplayTitleStyle
+                                        )
+                                        Text(text = details.euroToAssetRate.toString())
+                                    }
+                                }
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Row {
+                                    Column {
+                                        Text(
+                                            text = "British Pound Exchange Rate", style = detailsDisplayTitleStyle
+                                        )
+                                        Text(text = details.gbpToAssetRate.toString())
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
 
             error?.let {
-                LaunchedEffect(key1 = snackbarHostState, block = {
-                    snackbarHostState.showSnackbar(context.getString(R.string.something_went_wrong_please_try_again))
-                })
+                ErrorDialog(dismissError = dismissError)
             }
         }
     }

@@ -22,7 +22,8 @@ fun TickerNavHost(
     onFavoriteClick: (crypto: Crypto) -> Unit,
     onSearch: (query: String) -> Unit,
     onFavListComposableCreated: () -> Unit,
-    getCoinDetails: (assetId: String) -> Unit
+    getCoinDetails: (assetId: String) -> Unit,
+    dismissError: () -> Unit
 ) {
 
     NavHost(navController = navController, startDestination = MainScreen.route) {
@@ -37,7 +38,9 @@ fun TickerNavHost(
                 onSearch = { query -> onSearch(query) },
                 onFilterFavorites = {
                     navController.navigateSingleTopTo(FavoritesScreen.route)
-                }, error = error
+                },
+                error = error,
+                dismissError = dismissError
             )
         }
         composable(
@@ -52,7 +55,9 @@ fun TickerNavHost(
                 onNavBack = { navController.navigateUp() },
                 loading = loading,
                 details = details,
-                getCoinDetails = getCoinDetails, error = error
+                getCoinDetails = getCoinDetails,
+                error = error,
+                dismissError = dismissError
             )
         }
         composable(

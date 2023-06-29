@@ -15,9 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.fkexample.cointicker.R
 import com.fkexample.cointicker.ui.models.Crypto
 import com.fkexample.cointicker.utils.DateUtils
@@ -32,25 +32,25 @@ fun CryptoCard(
 ) {
 
     Card(
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.size_8)),
         modifier = modifier
-            .padding(6.dp)
+            .padding(dimensionResource(id = R.dimen.size_6))
             .clickable {
                 onCardClick()
             }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.size_16))
         ) {
             CryptoImage(imageUrl = crypto.cryptoUrl)
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_16)))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = crypto.name,
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Black),
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_4)))
                 Text(
                     text = stringResource(R.string.last_updated, DateUtils.getTimeAgo(crypto.dateCached)),
                     style = MaterialTheme.typography.labelSmall.copy(color = Color.Gray)

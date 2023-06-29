@@ -21,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.fkexample.cointicker.R
@@ -65,7 +66,7 @@ fun LikeToggleButton(
                 }
             },
             label = stringResource(id = R.string.toggle_size),
-            targetValueByState = { 25.dp }
+            targetValueByState = { dimensionResource(id = R.dimen.size_25) }
         )
 
         val tint = if (isFav) MaterialTheme.colorScheme.tertiary else Color.Unspecified

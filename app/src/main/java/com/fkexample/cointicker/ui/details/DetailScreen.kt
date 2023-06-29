@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -86,25 +87,25 @@ fun CryptoDetailsScreen(
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(16.dp)
+                                .padding(dimensionResource(id = R.dimen.size_16))
                         ) {
                             Column(
-                                modifier = Modifier.padding(16.dp)
+                                modifier = Modifier.padding(dimensionResource(id = R.dimen.size_16))
                             ) {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
                                     CryptoImage(imageUrl = details.url)
-                                    Spacer(modifier = Modifier.width(16.dp))
+                                    Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_16)))
                                     Text(
                                         text = details.name,
                                         style = TextStyle(
-                                            fontSize = 24.sp,
+                                            fontSize = dimensionResource(id = R.dimen.font_size_24).value.sp,
                                             fontWeight = FontWeight.Bold
                                         )
                                     )
                                 }
-                                Spacer(modifier = Modifier.height(16.dp))
+                                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_16)))
                                 Row {
                                     Column(modifier = Modifier.weight(1f)) {
                                         Text(
@@ -119,7 +120,7 @@ fun CryptoDetailsScreen(
                                         Text(text = DateUtils.getTimeAgo(details.dateCached))
                                     }
                                 }
-                                Spacer(modifier = Modifier.height(16.dp))
+                                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_16)))
                                 Row {
                                     Column {
                                         Text(
@@ -134,18 +135,18 @@ fun CryptoDetailsScreen(
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(16.dp)
+                                .padding(dimensionResource(id = R.dimen.size_16))
                         ) {
                             Column(
-                                modifier = Modifier.padding(16.dp)
+                                modifier = Modifier.padding(dimensionResource(id = R.dimen.size_16))
                             ) {
                                 Text(
                                     text = stringResource(R.string.exchange_rates_label), style = TextStyle(
-                                        fontSize = 24.sp,
+                                        fontSize = dimensionResource(id = R.dimen.font_size_24).value.sp,
                                         fontWeight = FontWeight.Bold
                                     )
                                 )
-                                Spacer(modifier = Modifier.height(16.dp))
+                                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_16)))
 
                                 Row {
                                     Column {
@@ -155,7 +156,7 @@ fun CryptoDetailsScreen(
                                         Text(text = details.euroToAssetRate.toString())
                                     }
                                 }
-                                Spacer(modifier = Modifier.height(16.dp))
+                                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_16)))
                                 Row {
                                     Column {
                                         Text(

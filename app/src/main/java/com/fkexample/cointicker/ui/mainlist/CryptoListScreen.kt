@@ -29,8 +29,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.fkexample.cointicker.R
 import com.fkexample.cointicker.ui.composables.CryptoCard
 import com.fkexample.cointicker.ui.composables.ErrorDialog
@@ -74,7 +74,7 @@ fun CryptoListScreen(
                             onClick = onFilterFavorites,
                             modifier = Modifier
                                 .align(Alignment.CenterVertically)
-                                .padding(end = 8.dp)
+                                .padding(end = dimensionResource(id = R.dimen.size_8))
                         ) {
                             Icon(Icons.Rounded.Favorite, stringResource(id = R.string.cd_favorite_icon), tint = MaterialTheme.colorScheme.tertiary)
                         }
@@ -82,7 +82,7 @@ fun CryptoListScreen(
                             onClick = { shouldShowSearch = true },
                             modifier = Modifier
                                 .align(Alignment.CenterVertically)
-                                .padding(end = 8.dp)
+                                .padding(end = dimensionResource(id = R.dimen.size_8))
                         ) {
                             Icon(Icons.Rounded.Search, stringResource(id = R.string.search))
                         }
@@ -117,7 +117,7 @@ fun CryptoListScreen(
                 .padding(paddingValues)
         ) {
             if (loading && cryptos.isEmpty()) {
-                LoadingCryptoListShimmer(imageHeight = 200.dp)
+                LoadingCryptoListShimmer(imageHeight = dimensionResource(id = R.dimen.size_200))
             } else if (cryptos.isEmpty()) {
                 NothingHere()
             } else {

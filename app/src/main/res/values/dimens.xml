@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="size_200">200dp</dimen>
+    <dimen name="font_size_24">24sp</dimen>
+    <dimen name="font_size_55">55sp</dimen>
+    <dimen name="font_size_18">18sp</dimen>
+    <dimen name="size_25">25dp</dimen>
+    <dimen name="size_16">16dp</dimen>
+    <dimen name="size_8">8dp</dimen>
+    <dimen name="size_6">6dp</dimen>
+    <dimen name="size_4">4dp</dimen>
+    <dimen name="size_12">12dp</dimen>
+</resources>

@@ -13,8 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import com.fkexample.cointicker.R
 
 @Composable
 fun ShimmerCryptoCardItem(
@@ -41,11 +42,11 @@ fun ShimmerCryptoCardItem(
                     .background(brush = brush)
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_8)))
         Surface(
             shape = MaterialTheme.shapes.small,
             modifier = Modifier
-                .padding(vertical = 8.dp)
+                .padding(vertical = dimensionResource(id = R.dimen.size_8))
         ) {
             Spacer(
                 modifier = Modifier

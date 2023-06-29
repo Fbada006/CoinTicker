@@ -9,6 +9,7 @@ import com.fkexample.cointicker.ui.details.CryptoDetailsScreen
 import com.fkexample.cointicker.ui.favorites.FavoritesListScreen
 import com.fkexample.cointicker.ui.mainlist.CryptoListScreen
 import com.fkexample.cointicker.ui.models.Crypto
+import com.fkexample.cointicker.ui.models.CryptoDetails
 
 @Composable
 fun TickerNavHost(
@@ -16,9 +17,13 @@ fun TickerNavHost(
     loading: Boolean,
     cryptos: List<Crypto>,
     favCryptos: List<Crypto>,
+    details: CryptoDetails?,
+    error: Throwable?,
     onFavoriteClick: (crypto: Crypto) -> Unit,
     onSearch: (query: String) -> Unit,
-    onFavListComposableCreated: () -> Unit
+    onFavListComposableCreated: () -> Unit,
+    getCoinDetails: (assetId: String) -> Unit,
+    dismissError: () -> Unit
 ) {
 
     NavHost(navController = navController, startDestination = MainScreen.route) {
@@ -33,7 +38,9 @@ fun TickerNavHost(
                 onSearch = { query -> onSearch(query) },
                 onFilterFavorites = {
                     navController.navigateSingleTopTo(FavoritesScreen.route)
-                }
+                },
+                error = error,
+                dismissError = dismissError
             )
         }
         composable(
@@ -41,9 +48,17 @@ fun TickerNavHost(
             arguments = DetailScreen.arguments
         ) { navBackStackEntry ->
             val assetId =
-                navBackStackEntry.arguments?.getString(DetailScreen.coinIdArg)
+                navBackStackEntry.arguments?.getString(DetailScreen.coinIdArg)!!
 
-            CryptoDetailsScreen(assetId = assetId, onNavBack = { navController.navigateUp() })
+            CryptoDetailsScreen(
+                assetId = assetId,
+                onNavBack = { navController.navigateUp() },
+                loading = loading,
+                details = details,
+                getCoinDetails = getCoinDetails,
+                error = error,
+                dismissError = dismissError
+            )
         }
         composable(
             route = FavoritesScreen.route

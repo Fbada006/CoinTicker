@@ -1,4 +1,4 @@
-package com.fkexample.cointicker.ui
+package com.fkexample.cointicker.ui.composables
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -13,13 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import com.fkexample.cointicker.R
 
 @Composable
 fun LoadingCryptoListShimmer(
     imageHeight: Dp,
-    padding: Dp = 16.dp
+    padding: Dp = dimensionResource(id = R.dimen.size_16)
 ) {
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize()

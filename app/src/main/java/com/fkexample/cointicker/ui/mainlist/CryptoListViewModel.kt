@@ -3,9 +3,11 @@ package com.fkexample.cointicker.ui.mainlist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fkexample.cointicker.ui.models.Crypto
+import com.fkexample.cointicker.ui.models.CryptoDetails
 import com.fkexample.cointicker.usecases.AddCoinToFavoriteUseCase
 import com.fkexample.cointicker.usecases.GetAllCoinsUseCase
 import com.fkexample.cointicker.usecases.GetAllFavoriteCoinsUseCase
+import com.fkexample.cointicker.usecases.GetCoinDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,7 +22,8 @@ import javax.inject.Inject
 class CryptoListViewModel @Inject constructor(
     private val getAllCoinsUseCase: GetAllCoinsUseCase,
     private val addCoinToFavoriteUseCase: AddCoinToFavoriteUseCase,
-    private val getAllFavoriteCoinsUseCase: GetAllFavoriteCoinsUseCase
+    private val getAllFavoriteCoinsUseCase: GetAllFavoriteCoinsUseCase,
+    private val getCoinDetailsUseCase: GetCoinDetailsUseCase
 ) : ViewModel() {
 
     private val mutableCryptosState = MutableStateFlow(listOf<Crypto>())
@@ -29,8 +32,14 @@ class CryptoListViewModel @Inject constructor(
     private val mutableFavCryptosState = MutableStateFlow(listOf<Crypto>())
     val favCryptos = mutableFavCryptosState.asStateFlow()
 
+    private val mutableDetailCryptosState: MutableStateFlow<CryptoDetails?> = MutableStateFlow(null)
+    val detailCryptosState = mutableDetailCryptosState.asStateFlow()
+
     private val mutableIsLoadingState = MutableStateFlow(false)
     val isLoading = mutableIsLoadingState.asStateFlow()
+
+    private val mutableErrorState: MutableStateFlow<Throwable?> = MutableStateFlow(null)
+    val error = mutableErrorState.asStateFlow()
 
     // Keep track of the original loaded list before search
     private val originalCryptoList = mutableListOf<Crypto>()
@@ -47,9 +56,7 @@ class CryptoListViewModel @Inject constructor(
                 mutableCryptosState.value = list
             }
 
-            dataState.error?.let {
-                // Handle this
-            }
+            mutableErrorState.value = dataState.error
         }.launchIn(viewModelScope)
     }
 
@@ -61,9 +68,19 @@ class CryptoListViewModel @Inject constructor(
                 mutableFavCryptosState.value = list
             }
 
-            dataState.error?.let {
-                // Handle this
+            mutableErrorState.value = dataState.error
+        }.launchIn(viewModelScope)
+    }
+
+    fun getCoinDetails(assetId: String) {
+        getCoinDetailsUseCase(assetId).onEach { dataState ->
+            mutableIsLoadingState.value = dataState.loading
+
+            dataState.data?.let { details ->
+                mutableDetailCryptosState.value = details
             }
+
+            mutableErrorState.value = dataState.error
         }.launchIn(viewModelScope)
     }
 
@@ -124,5 +141,9 @@ class CryptoListViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         originalCryptoList.clear()
+    }
+
+    fun dismissError() {
+        mutableErrorState.value = null
     }
 }

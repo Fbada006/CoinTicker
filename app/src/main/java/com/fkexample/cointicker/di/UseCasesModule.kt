@@ -4,6 +4,7 @@ import com.fkexample.cointicker.repo.CoinRepository
 import com.fkexample.cointicker.usecases.AddCoinToFavoriteUseCase
 import com.fkexample.cointicker.usecases.GetAllCoinsUseCase
 import com.fkexample.cointicker.usecases.GetAllFavoriteCoinsUseCase
+import com.fkexample.cointicker.usecases.GetCoinDetailsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,5 +37,13 @@ class UseCasesModule {
         repository: CoinRepository
     ): GetAllFavoriteCoinsUseCase {
         return GetAllFavoriteCoinsUseCase(repository)
+    }
+
+    @ViewModelScoped
+    @Provides
+    fun providesGetCoinDetailsUseCase(
+        repository: CoinRepository
+    ): GetCoinDetailsUseCase {
+        return GetCoinDetailsUseCase(repository)
     }
 }

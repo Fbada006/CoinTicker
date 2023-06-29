@@ -29,13 +29,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.fkexample.cointicker.R
-import com.fkexample.cointicker.ui.CryptoCard
-import com.fkexample.cointicker.ui.LoadingCryptoListShimmer
-import com.fkexample.cointicker.ui.NothingHere
-import com.fkexample.cointicker.ui.SearchAppBar
+import com.fkexample.cointicker.ui.composables.CryptoCard
+import com.fkexample.cointicker.ui.composables.ErrorDialog
+import com.fkexample.cointicker.ui.composables.LoadingCryptoListShimmer
+import com.fkexample.cointicker.ui.composables.NothingHere
+import com.fkexample.cointicker.ui.composables.SearchAppBar
 import com.fkexample.cointicker.ui.models.Crypto
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
@@ -43,10 +44,12 @@ import com.fkexample.cointicker.ui.models.Crypto
 fun CryptoListScreen(
     loading: Boolean,
     cryptos: List<Crypto>,
+    error: Throwable?,
     onCardClick: (crypto: Crypto) -> Unit,
     onFavoriteClick: (crypto: Crypto) -> Unit,
     onSearch: (query: String) -> Unit,
-    onFilterFavorites: () -> Unit
+    onFilterFavorites: () -> Unit,
+    dismissError: () -> Unit
 ) {
 
     var shouldShowSearch by remember { mutableStateOf(false) }
@@ -71,7 +74,7 @@ fun CryptoListScreen(
                             onClick = onFilterFavorites,
                             modifier = Modifier
                                 .align(Alignment.CenterVertically)
-                                .padding(end = 8.dp)
+                                .padding(end = dimensionResource(id = R.dimen.size_8))
                         ) {
                             Icon(Icons.Rounded.Favorite, stringResource(id = R.string.cd_favorite_icon), tint = MaterialTheme.colorScheme.tertiary)
                         }
@@ -79,7 +82,7 @@ fun CryptoListScreen(
                             onClick = { shouldShowSearch = true },
                             modifier = Modifier
                                 .align(Alignment.CenterVertically)
-                                .padding(end = 8.dp)
+                                .padding(end = dimensionResource(id = R.dimen.size_8))
                         ) {
                             Icon(Icons.Rounded.Search, stringResource(id = R.string.search))
                         }
@@ -114,7 +117,7 @@ fun CryptoListScreen(
                 .padding(paddingValues)
         ) {
             if (loading && cryptos.isEmpty()) {
-                LoadingCryptoListShimmer(imageHeight = 200.dp)
+                LoadingCryptoListShimmer(imageHeight = dimensionResource(id = R.dimen.size_200))
             } else if (cryptos.isEmpty()) {
                 NothingHere()
             } else {
@@ -133,6 +136,10 @@ fun CryptoListScreen(
                         )
                     }
                 }
+            }
+
+            error?.let {
+                ErrorDialog(dismissError = dismissError)
             }
         }
     }

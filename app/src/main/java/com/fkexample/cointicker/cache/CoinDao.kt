@@ -28,4 +28,7 @@ interface CoinDao {
 
     @Query("SELECT * FROM fav_coins WHERE asset_id LIKE :assetId")
     suspend fun getFavById(assetId: String): CryptoFavEntity?
+
+    @Query("SELECT * FROM coins WHERE asset_id LIKE :assetId")
+    suspend fun getCoinById(assetId: String): CryptoEntity?
 }

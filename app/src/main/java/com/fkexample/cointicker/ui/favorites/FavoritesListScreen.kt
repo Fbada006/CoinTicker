@@ -20,12 +20,12 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.fkexample.cointicker.R
-import com.fkexample.cointicker.ui.CryptoCard
-import com.fkexample.cointicker.ui.LoadingCryptoListShimmer
-import com.fkexample.cointicker.ui.NothingHere
+import com.fkexample.cointicker.ui.composables.CryptoCard
+import com.fkexample.cointicker.ui.composables.LoadingCryptoListShimmer
+import com.fkexample.cointicker.ui.composables.NothingHere
 import com.fkexample.cointicker.ui.models.Crypto
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -64,7 +64,7 @@ fun FavoritesListScreen(
                 .padding(paddingValues)
         ) {
             if (loading && favCryptos.isEmpty()) {
-                LoadingCryptoListShimmer(imageHeight = 200.dp)
+                LoadingCryptoListShimmer(imageHeight = dimensionResource(id = R.dimen.size_200))
             } else if (favCryptos.isEmpty()) {
                 NothingHere()
             } else {

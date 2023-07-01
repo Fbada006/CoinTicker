@@ -9,8 +9,16 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 
+/**
+ * Use case for retrieving all favorite coins.
+ * @property coinRepository The repository for managing coin data.
+ */
 class GetAllFavoriteCoinsUseCase(private val coinRepository: CoinRepository) {
 
+    /**
+     * Retrieves all favorite coins.
+     * @return A [Flow] emitting [DataState] containing a list of [Crypto] objects.
+     */
     operator fun invoke(): Flow<DataState<List<Crypto>>> = flow {
         coinRepository.getAllFavoriteCoins()
             .onStart {

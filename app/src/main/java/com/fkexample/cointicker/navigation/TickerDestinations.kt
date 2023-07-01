@@ -3,7 +3,11 @@ package com.fkexample.cointicker.navigation
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 
+/**
+ * Interface to define destinations for navigation compose
+ */
 interface TickerDestinations {
+    // The navigation route
     val route: String
 }
 

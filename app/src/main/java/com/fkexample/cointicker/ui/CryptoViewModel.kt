@@ -1,4 +1,4 @@
-package com.fkexample.cointicker.ui.mainlist
+package com.fkexample.cointicker.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,8 +18,16 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+/**
+ * ViewModel class for the app. This is not a big app so this should suffice
+ *
+ * @property getAllCoinsUseCase The use case for retrieving all coins.
+ * @property addCoinToFavoriteUseCase The use case for adding or removing a coin from favorites.
+ * @property getAllFavoriteCoinsUseCase The use case for retrieving all favorite coins.
+ * @property getCoinDetailsUseCase The use case for retrieving coin details.
+ */
 @HiltViewModel
-class CryptoListViewModel @Inject constructor(
+class CryptoViewModel @Inject constructor(
     private val getAllCoinsUseCase: GetAllCoinsUseCase,
     private val addCoinToFavoriteUseCase: AddCoinToFavoriteUseCase,
     private val getAllFavoriteCoinsUseCase: GetAllFavoriteCoinsUseCase,
@@ -27,19 +35,19 @@ class CryptoListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val mutableCryptosState = MutableStateFlow(listOf<Crypto>())
-    val cryptos = mutableCryptosState.asStateFlow()
+    val cryptos = mutableCryptosState.asStateFlow() // Flow for all the cryptos on the main screen
 
     private val mutableFavCryptosState = MutableStateFlow(listOf<Crypto>())
-    val favCryptos = mutableFavCryptosState.asStateFlow()
+    val favCryptos = mutableFavCryptosState.asStateFlow() // Flow for all the cryptos on the fav screen
 
     private val mutableDetailCryptosState: MutableStateFlow<CryptoDetails?> = MutableStateFlow(null)
-    val detailCryptosState = mutableDetailCryptosState.asStateFlow()
+    val detailCryptosState = mutableDetailCryptosState.asStateFlow() // Flow for all the cryptos on the details screen
 
     private val mutableIsLoadingState = MutableStateFlow(false)
-    val isLoading = mutableIsLoadingState.asStateFlow()
+    val isLoading = mutableIsLoadingState.asStateFlow() // Flow for all the loading values
 
     private val mutableErrorState: MutableStateFlow<Throwable?> = MutableStateFlow(null)
-    val error = mutableErrorState.asStateFlow()
+    val error = mutableErrorState.asStateFlow() // Flow for all the errors
 
     // Keep track of the original loaded list before search
     private val originalCryptoList = mutableListOf<Crypto>()
@@ -48,6 +56,9 @@ class CryptoListViewModel @Inject constructor(
         getAllCoins()
     }
 
+    /**
+     * Retrieves all coins and updates the [isLoading] [cryptos] and [error] states accordingly.
+     */
     private fun getAllCoins() {
         getAllCoinsUseCase().onEach { dataState ->
             mutableIsLoadingState.value = dataState.loading
@@ -60,6 +71,9 @@ class CryptoListViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    /**
+     * Retrieves all favorite coins and updates the [isLoading]  [favCryptos] and [error] states accordingly.
+     */
     fun getAllFavoriteCoins() {
         getAllFavoriteCoinsUseCase().onEach { dataState ->
             mutableIsLoadingState.value = dataState.loading
@@ -72,6 +86,11 @@ class CryptoListViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    /**
+     * Retrieves coin details for the specified asset ID and updates the [isLoading]  [detailCryptosState] and [error] states accordingly.
+     *
+     * @param assetId The asset ID of the coin to retrieve details for.
+     */
     fun getCoinDetails(assetId: String) {
         getCoinDetailsUseCase(assetId).onEach { dataState ->
             mutableIsLoadingState.value = dataState.loading
@@ -84,6 +103,12 @@ class CryptoListViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    /**
+     * Handles the click event on the favorite button of a coin.
+     * Adds or removes the coin from favorites and updates the UI accordingly.
+     *
+     * @param crypto The coin to add or remove from favorites.
+     */
     fun onFavouriteClick(crypto: Crypto) {
         viewModelScope.launch {
             try {
@@ -102,8 +127,8 @@ class CryptoListViewModel @Inject constructor(
      * Instead of querying the entire list, which makes for a bad jumping UI, we can go ahead and update the isFavourite property of the item
      * added to favorites here, which creates a better animation effect on the UI.
      *
-     * @param crypto is the item clicked on the UI
-     * */
+     * @param crypto The item clicked on the UI.
+     */
     private fun refreshList(crypto: Crypto) {
         val cryptoList = mutableCryptosState.value.toMutableList()
 
@@ -116,6 +141,11 @@ class CryptoListViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Performs a search on the coin list based on the given query and updates the [cryptos] state accordingly.
+     *
+     * @param query The search query to filter the coin list.
+     */
     fun onSearch(query: String) {
         val filteredListFlow = flow {
             if (originalCryptoList.isEmpty()) {
@@ -138,12 +168,15 @@ class CryptoListViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Clears the error state.
+     */
+    fun dismissError() {
+        mutableErrorState.value = null
+    }
+
     override fun onCleared() {
         super.onCleared()
         originalCryptoList.clear()
-    }
-
-    fun dismissError() {
-        mutableErrorState.value = null
     }
 }

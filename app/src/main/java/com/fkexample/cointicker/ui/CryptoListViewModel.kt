@@ -1,4 +1,4 @@
-package com.fkexample.cointicker.ui.mainlist
+package com.fkexample.cointicker.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

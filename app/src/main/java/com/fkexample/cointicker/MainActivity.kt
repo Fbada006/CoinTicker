@@ -9,7 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.fkexample.cointicker.navigation.TickerNavHost
 import com.fkexample.cointicker.network.utils.ConnectionManager
-import com.fkexample.cointicker.ui.mainlist.CryptoListViewModel
+import com.fkexample.cointicker.ui.CryptoListViewModel
 import com.fkexample.cointicker.ui.theme.CoinTickerTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

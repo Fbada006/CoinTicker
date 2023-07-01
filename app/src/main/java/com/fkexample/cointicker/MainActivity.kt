@@ -9,7 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.fkexample.cointicker.navigation.TickerNavHost
 import com.fkexample.cointicker.network.utils.ConnectionManager
-import com.fkexample.cointicker.ui.CryptoListViewModel
+import com.fkexample.cointicker.ui.CryptoViewModel
 import com.fkexample.cointicker.ui.theme.CoinTickerTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -34,27 +34,27 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            val tickerViewModel: CryptoListViewModel = hiltViewModel()
-            val cryptos by tickerViewModel.cryptos.collectAsState()
-            val favCryptos by tickerViewModel.favCryptos.collectAsState()
-            val loading by tickerViewModel.isLoading.collectAsState()
+            val cryptoViewModel: CryptoViewModel = hiltViewModel()
+            val cryptos by cryptoViewModel.cryptos.collectAsState()
+            val favCryptos by cryptoViewModel.favCryptos.collectAsState()
+            val loading by cryptoViewModel.isLoading.collectAsState()
             val isNetworkAvailable by connectivityManager.isNetworkAvailable
-            val details by tickerViewModel.detailCryptosState.collectAsState()
-            val error by tickerViewModel.error.collectAsState()
+            val details by cryptoViewModel.detailCryptosState.collectAsState()
+            val error by cryptoViewModel.error.collectAsState()
 
             CoinTickerTheme(isNetworkAvailable = isNetworkAvailable) {
                 TickerNavHost(
                     navController = navController,
                     loading = loading,
                     cryptos = cryptos,
-                    onFavoriteClick = { crypto -> tickerViewModel.onFavouriteClick(crypto) },
-                    onSearch = { query -> tickerViewModel.onSearch(query) },
+                    onFavoriteClick = { crypto -> cryptoViewModel.onFavouriteClick(crypto) },
+                    onSearch = { query -> cryptoViewModel.onSearch(query) },
                     favCryptos = favCryptos,
-                    onFavListComposableCreated = { tickerViewModel.getAllFavoriteCoins() },
+                    onFavListComposableCreated = { cryptoViewModel.getAllFavoriteCoins() },
                     details = details,
-                    getCoinDetails = { assetId -> tickerViewModel.getCoinDetails(assetId) },
+                    getCoinDetails = { assetId -> cryptoViewModel.getCoinDetails(assetId) },
                     error = error,
-                    dismissError = { tickerViewModel.dismissError() }
+                    dismissError = { cryptoViewModel.dismissError() }
                 )
             }
         }

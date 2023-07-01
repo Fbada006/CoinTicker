@@ -19,7 +19,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class CryptoListViewModel @Inject constructor(
+class CryptoViewModel @Inject constructor(
     private val getAllCoinsUseCase: GetAllCoinsUseCase,
     private val addCoinToFavoriteUseCase: AddCoinToFavoriteUseCase,
     private val getAllFavoriteCoinsUseCase: GetAllFavoriteCoinsUseCase,

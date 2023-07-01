@@ -78,7 +78,7 @@ class GetCoinDetailsUseCaseTest {
         getCoinDetailsUseCase.invoke("assetId").test {
             assertThat(awaitItem().loading).isTrue()
             assertThat(awaitItem().data?.name).isNull()
-            awaitError()
+            awaitComplete()
         }
     }
 

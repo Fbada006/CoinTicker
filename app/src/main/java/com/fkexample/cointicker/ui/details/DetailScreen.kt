@@ -80,6 +80,11 @@ fun CryptoDetailsScreen(
         ) {
             if (loading) {
                 LoadingCryptoListShimmer(imageHeight = 200.dp)
+            } else if (error != null){
+                ErrorDialog(dismissError = {
+                    onNavBack()
+                    dismissError()
+                })
             } else {
                 Column {
                     if (details != null) {
@@ -164,12 +169,12 @@ fun CryptoDetailsScreen(
                 }
             }
 
-            error?.let {
-                ErrorDialog(dismissError = {
-                    onNavBack()
-                    dismissError()
-                })
-            }
+//            error?.let {
+//                ErrorDialog(dismissError = {
+//                    onNavBack()
+//                    dismissError()
+//                })
+//            }
         }
     }
 }

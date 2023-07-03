@@ -110,7 +110,6 @@ The pipeline also runs unit tests. The status of the build is displayed at the t
    the db
    then update the list in memory once the favorite operation is completed, which triggers a recomposition of the list
    in a smooth way.
-3. The error messages displayed on screen can also be done better to state exactly what the problem is instead of a generic error message.
 
 
 ```

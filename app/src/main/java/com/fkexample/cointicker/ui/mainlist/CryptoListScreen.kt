@@ -38,6 +38,7 @@ import com.fkexample.cointicker.ui.composables.LoadingCryptoListShimmer
 import com.fkexample.cointicker.ui.composables.NothingHere
 import com.fkexample.cointicker.ui.composables.SearchAppBar
 import com.fkexample.cointicker.ui.models.Crypto
+import com.fkexample.cointicker.utils.getErrorMessage
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -139,7 +140,7 @@ fun CryptoListScreen(
             }
 
             error?.let {
-                ErrorDialog(dismissError = dismissError)
+                ErrorDialog(text = stringResource(id = error.getErrorMessage()), dismissError = dismissError)
             }
         }
     }

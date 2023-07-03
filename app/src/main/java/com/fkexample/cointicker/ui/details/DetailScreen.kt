@@ -39,7 +39,7 @@ import com.fkexample.cointicker.ui.composables.ErrorDialog
 import com.fkexample.cointicker.ui.composables.LoadingCryptoListShimmer
 import com.fkexample.cointicker.ui.models.CryptoDetails
 import com.fkexample.cointicker.ui.theme.detailsDisplayTitleStyle
-import timber.log.Timber
+import com.fkexample.cointicker.utils.getErrorMessage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -82,8 +82,7 @@ fun CryptoDetailsScreen(
             if (loading) {
                 LoadingCryptoListShimmer(imageHeight = 200.dp)
             } else if (error != null) {
-                Timber.e("ERROR - $error")
-                ErrorDialog(dismissError = {
+                ErrorDialog(text = stringResource(id = error.getErrorMessage()),dismissError = {
                     dismissError()
                     onNavBack()
                 })
@@ -170,13 +169,6 @@ fun CryptoDetailsScreen(
                     }
                 }
             }
-
-//            error?.let {
-//                ErrorDialog(dismissError = {
-//                    onNavBack()
-//                    dismissError()
-//                })
-//            }
         }
     }
 }

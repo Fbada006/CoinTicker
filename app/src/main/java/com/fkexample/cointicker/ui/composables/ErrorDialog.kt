@@ -9,12 +9,13 @@ import com.fkexample.cointicker.R
 
 @Composable
 fun ErrorDialog(
+    text: String,
     dismissError: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = dismissError,
         title = { Text(stringResource(id = R.string.error)) },
-        text = { Text(stringResource(id = R.string.something_went_wrong_please_try_again)) },
+        text = { Text(text) },
         confirmButton = {
             TextButton(onClick = dismissError) {
                 Text(stringResource(id = R.string.okay))

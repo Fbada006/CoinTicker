@@ -67,7 +67,7 @@ fun TickerNavHost(
                 navController.navigateToDetailScreen(assetId = crypto.assetId)
             }, onNavBack = {
                 navController.navigateUp()
-            }, onFavListComposableCreated = onFavListComposableCreated)
+            }, getAllFavs = onFavListComposableCreated)
         }
     }
 }

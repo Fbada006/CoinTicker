@@ -17,6 +17,7 @@
     <string name="favourite">Favourite</string>
     <string name="favourites_label">Favourite Coins</string>
     <string name="toggle_label">Like button toggle label</string>
+    <string name="error">Error!</string>
     <string name="something_went_wrong_please_try_again">Something went wrong. Please try again!</string>
     <string name="usd_price_label">USD Price</string>
     <string name="coin_symbol_label">Coin Symbol</string>

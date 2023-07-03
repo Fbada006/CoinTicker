@@ -13,7 +13,8 @@ fun ErrorDialog(
 ) {
     AlertDialog(
         onDismissRequest = dismissError,
-        title = { Text(stringResource(id = R.string.something_went_wrong_please_try_again)) },
+        title = { Text(stringResource(id = R.string.error)) },
+        text = { Text(stringResource(id = R.string.something_went_wrong_please_try_again)) },
         confirmButton = {
             TextButton(onClick = dismissError) {
                 Text(stringResource(id = R.string.okay))

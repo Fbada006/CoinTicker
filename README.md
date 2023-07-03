@@ -96,7 +96,7 @@ The app also uses GitHub actions to build the app and runs whenever a new pull r
 happens.
 The pipeline also runs unit tests. The status of the build is displayed at the top of this file.
 
-#### Challenges
+#### Challenges and improvements
 
 1. The biggest challenge is that this API does not support pagination, which means the app has to load all the coins first before saving to the db
    and then querying it to display the data since that is the source of truth. This means the app is a few seconds slower as opposed to when
@@ -110,6 +110,7 @@ The pipeline also runs unit tests. The status of the build is displayed at the t
    the db
    then update the list in memory once the favorite operation is completed, which triggers a recomposition of the list
    in a smooth way.
+3. The error messages displayed on screen can also be done better to state exactly what the problem is instead of a generic error message.
 
 
 ```

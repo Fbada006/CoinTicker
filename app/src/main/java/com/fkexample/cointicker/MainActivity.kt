@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
                     onFavoriteClick = { crypto -> cryptoViewModel.onFavouriteClick(crypto) },
                     onSearch = { query -> cryptoViewModel.onSearch(query) },
                     favCryptos = favCryptos,
-                    onFavListComposableCreated = { cryptoViewModel.getAllFavoriteCoins() },
+                    getAllFavs = { cryptoViewModel.getAllFavoriteCoins() },
                     details = details,
                     getCoinDetails = { assetId -> cryptoViewModel.getCoinDetails(assetId) },
                     error = error,

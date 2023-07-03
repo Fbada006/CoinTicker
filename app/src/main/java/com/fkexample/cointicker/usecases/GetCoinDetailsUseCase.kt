@@ -26,11 +26,7 @@ class GetCoinDetailsUseCase(private val coinRepository: CoinRepository) {
             }.catch { error ->
                 emit(DataState.error(error))
             }.collect { details ->
-                if (details != null) {
-                    emit(DataState.success(details))
-                } else {
-                    emit(DataState.error(Throwable()))
-                }
+                emit(DataState.success(details))
             }
     }
 }

@@ -19,7 +19,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * ViewModel class for the app. This is not a big app so this should suffice
+ * ViewModel class for the app. This is not a big app so this should suffice although we would use more viewmodels if the app was bigger
  *
  * @property getAllCoinsUseCase The use case for retrieving all coins.
  * @property addCoinToFavoriteUseCase The use case for adding or removing a coin from favorites.

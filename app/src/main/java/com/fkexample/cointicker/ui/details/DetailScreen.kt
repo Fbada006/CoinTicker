@@ -39,6 +39,7 @@ import com.fkexample.cointicker.ui.composables.ErrorDialog
 import com.fkexample.cointicker.ui.composables.LoadingCryptoListShimmer
 import com.fkexample.cointicker.ui.models.CryptoDetails
 import com.fkexample.cointicker.ui.theme.detailsDisplayTitleStyle
+import com.fkexample.cointicker.utils.getErrorMessage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -80,6 +81,11 @@ fun CryptoDetailsScreen(
         ) {
             if (loading) {
                 LoadingCryptoListShimmer(imageHeight = 200.dp)
+            } else if (error != null) {
+                ErrorDialog(text = stringResource(id = error.getErrorMessage()),dismissError = {
+                    dismissError()
+                    onNavBack()
+                })
             } else {
                 Column {
                     if (details != null) {
@@ -162,13 +168,6 @@ fun CryptoDetailsScreen(
                         }
                     }
                 }
-            }
-
-            error?.let {
-                ErrorDialog(dismissError = {
-                    onNavBack()
-                    dismissError()
-                })
             }
         }
     }

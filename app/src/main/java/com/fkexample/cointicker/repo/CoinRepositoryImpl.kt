@@ -74,12 +74,7 @@ class CoinRepositoryImpl(
      */
     override suspend fun getAllFavoriteCoins(): Flow<List<CryptoFavEntity>> {
         return flow {
-            try {
-                emit(coinDao.getAllFavoriteCoins())
-            } catch (e: Exception) {
-                Timber.e(e)
-                emit(emptyList())
-            }
+            emit(coinDao.getAllFavoriteCoins())
         }.flowOn(dispatcher)
     }
 
@@ -99,35 +94,30 @@ class CoinRepositoryImpl(
      */
     override suspend fun getCoinDetails(assetId: String): Flow<CryptoDetails?> {
         return flow {
-            try {
-                val data = tickerService.getCoinDetails(assetId).first()
-                val euroAssetRate = tickerService.getCoinExchangeRate(assetIdBase = EURO_SYMBOL, assetIdQuote = assetId)
-                val gbpAssetRate = tickerService.getCoinExchangeRate(assetIdBase = GBP_SYMBOL, assetIdQuote = assetId)
-                val localCoinData = coinDao.getCoinById(assetId)
+            val data = tickerService.getCoinDetails(assetId).first()
+            val euroAssetRate = tickerService.getCoinExchangeRate(assetIdBase = EURO_SYMBOL, assetIdQuote = assetId)
+            val gbpAssetRate = tickerService.getCoinExchangeRate(assetIdBase = GBP_SYMBOL, assetIdQuote = assetId)
+            val localCoinData = coinDao.getCoinById(assetId)
 
-                val details =
-                    if (localCoinData != null
-                        && data.assetId == assetId
-                        && euroAssetRate.quoteAssetId == assetId
-                        && gbpAssetRate.quoteAssetId == assetId
-                    ) {
-                        CryptoDetails(
-                            name = localCoinData.name,
-                            dateCached = localCoinData.dateCached,
-                            url = localCoinData.cryptoUrl,
-                            priceUsd = data.priceUsd,
-                            euroToAssetRate = euroAssetRate.rate,
-                            gbpToAssetRate = gbpAssetRate.rate
-                        )
-                    } else {
-                        null
-                    }
+            val details =
+                if (localCoinData != null
+                    && data.assetId == assetId
+                    && euroAssetRate.quoteAssetId == assetId
+                    && gbpAssetRate.quoteAssetId == assetId
+                ) {
+                    CryptoDetails(
+                        name = localCoinData.name,
+                        dateCached = localCoinData.dateCached,
+                        url = localCoinData.cryptoUrl,
+                        priceUsd = data.priceUsd,
+                        euroToAssetRate = euroAssetRate.rate,
+                        gbpToAssetRate = gbpAssetRate.rate
+                    )
+                } else {
+                    null
+                }
 
-                emit(details)
-            } catch (e: Exception) {
-                emit(null)
-                Timber.e(e)
-            }
+            emit(details)
         }.flowOn(dispatcher)
     }
 

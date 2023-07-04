@@ -3,9 +3,9 @@ package com.fkexample.cointicker
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.fkexample.cointicker.navigation.TickerNavHost
 import com.fkexample.cointicker.network.utils.ConnectionManager
@@ -35,12 +35,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val cryptoViewModel: CryptoViewModel = hiltViewModel()
-            val cryptos by cryptoViewModel.cryptos.collectAsState()
-            val favCryptos by cryptoViewModel.favCryptos.collectAsState()
-            val loading by cryptoViewModel.isLoading.collectAsState()
+            val cryptos by cryptoViewModel.cryptos.collectAsStateWithLifecycle()
+            val favCryptos by cryptoViewModel.favCryptos.collectAsStateWithLifecycle()
+            val loading by cryptoViewModel.isLoading.collectAsStateWithLifecycle()
             val isNetworkAvailable by connectivityManager.isNetworkAvailable
-            val details by cryptoViewModel.detailCryptosState.collectAsState()
-            val error by cryptoViewModel.error.collectAsState()
+            val details by cryptoViewModel.detailCryptosState.collectAsStateWithLifecycle()
+            val error by cryptoViewModel.error.collectAsStateWithLifecycle()
 
             CoinTickerTheme(isNetworkAvailable = isNetworkAvailable) {
                 TickerNavHost(
@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
                     onFavoriteClick = { crypto -> cryptoViewModel.onFavouriteClick(crypto) },
                     onSearch = { query -> cryptoViewModel.onSearch(query) },
                     favCryptos = favCryptos,
-                    onFavListComposableCreated = { cryptoViewModel.getAllFavoriteCoins() },
+                    getAllFavs = { cryptoViewModel.getAllFavoriteCoins() },
                     details = details,
                     getCoinDetails = { assetId -> cryptoViewModel.getCoinDetails(assetId) },
                     error = error,

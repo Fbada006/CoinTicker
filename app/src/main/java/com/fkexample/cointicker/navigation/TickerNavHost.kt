@@ -21,7 +21,7 @@ fun TickerNavHost(
     error: Throwable?,
     onFavoriteClick: (crypto: Crypto) -> Unit,
     onSearch: (query: String) -> Unit,
-    onFavListComposableCreated: () -> Unit,
+    getAllFavs: () -> Unit,
     getCoinDetails: (assetId: String) -> Unit,
     dismissError: () -> Unit
 ) {
@@ -67,7 +67,7 @@ fun TickerNavHost(
                 navController.navigateToDetailScreen(assetId = crypto.assetId)
             }, onNavBack = {
                 navController.navigateUp()
-            }, onFavListComposableCreated = onFavListComposableCreated)
+            }, getAllFavs = getAllFavs)
         }
     }
 }

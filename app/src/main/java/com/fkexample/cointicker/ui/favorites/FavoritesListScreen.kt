@@ -35,11 +35,11 @@ fun FavoritesListScreen(
     favCryptos: List<Crypto>,
     onCardClick: (crypto: Crypto) -> Unit,
     onNavBack: () -> Unit,
-    onFavListComposableCreated: () -> Unit
+    getAllFavs: () -> Unit
 ) {
 
     LaunchedEffect(key1 = Unit, block = {
-        onFavListComposableCreated()
+        getAllFavs()
     })
 
     Scaffold(

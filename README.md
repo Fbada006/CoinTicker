@@ -2,7 +2,7 @@
 
 # CoinTicker
 
-A simple android application that queries crypto data, caches it, and displays it on screen.
+A simple android application that queries crypto data from [this API](https://www.coinapi.io/), caches it, and displays it on screen.
 This app is built using the Model-View-ViewModel (MVVM) architecture in 100% Kotlin. It has the
 following features and screens:
 
@@ -37,7 +37,12 @@ This screen shows the details of the clicked item. It shows the following:
 The app was built using Android Studio Flamingo | 2022.2.1 Patch 2 so try running at least that version of Android studio. As for
 testing devices,
 ensure they are at least running Android API 24 and above. Running UI tests can be done straight from the Android Studio
-UI.
+UI. Before running the app, make sure you got to the API and get your free API Key then add it to your `local.properties` file as follows. Be sure to 
+include the double quotes. Once added, build and run the app.
+
+```
+coinApiKey="YOUR_API_KEY"
+```
 
 ## Table of contents
 
@@ -96,7 +101,7 @@ The app also uses GitHub actions to build the app and runs whenever a new pull r
 happens.
 The pipeline also runs unit tests. The status of the build is displayed at the top of this file.
 
-#### Challenges
+#### Challenges and improvements
 
 1. The biggest challenge is that this API does not support pagination, which means the app has to load all the coins first before saving to the db
    and then querying it to display the data since that is the source of truth. This means the app is a few seconds slower as opposed to when

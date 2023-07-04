@@ -17,6 +17,7 @@
     <string name="favourite">Favourite</string>
     <string name="favourites_label">Favourite Coins</string>
     <string name="toggle_label">Like button toggle label</string>
+    <string name="error">Error!</string>
     <string name="something_went_wrong_please_try_again">Something went wrong. Please try again!</string>
     <string name="usd_price_label">USD Price</string>
     <string name="coin_symbol_label">Coin Symbol</string>
@@ -25,4 +26,9 @@
     <string name="euro_exchange_rate_label">Euro Exchange Rate</string>
     <string name="british_pound_exchange_rate_label">British Pound Exchange Rate</string>
     <string name="exchange_rates_label">Exchange Rates</string>
+    <string name="resource_not_found">The resource you are trying to get does not exist. Please try again.</string>
+    <string name="too_many_requests">You have many too many attempts to get data from the server. Please try again later.</string>
+    <string name="server_error">The server cannot fulfill your request at this time. Please wait and try again later.</string>
+    <string name="something_went_wrong_network">Something went wrong while attempting to connect to the server. Please try again later.</string>
+    <string name="no_internet">The attempt to connect to the server has failed. Please check you have a working internet connection and try again.</string>
 </resources>

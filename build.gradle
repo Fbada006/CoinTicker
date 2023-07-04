@@ -12,6 +12,7 @@ buildscript {
         coreKtxVersion = "1.10.1"
         lifecyleRuntimeKtxVersion = "2.6.1"
         viewmodelComposeVersion = '2.6.1'
+        lifecycleVersion = '2.6.1'
         composeMaterialVersion = '1.2.0-alpha02'
         composeBomVersion = '2022.10.00'
         navigationComposeVersion = '1.0.0'

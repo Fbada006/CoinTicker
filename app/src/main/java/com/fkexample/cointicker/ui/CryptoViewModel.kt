@@ -10,6 +10,7 @@ import com.fkexample.cointicker.usecases.GetAllFavoriteCoinsUseCase
 import com.fkexample.cointicker.usecases.GetCoinDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
@@ -18,6 +19,11 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+data class CryptoState(
+    val isLoading:Boolean = false,
+    val error:Throwable? = null,
+    val cryptoList:List<Crypto> = emptyList()
+)
 /**
  * ViewModel class for the app. This is not a big app so this should suffice although we would use more viewmodels if the app was bigger
  *
@@ -34,8 +40,11 @@ class CryptoViewModel @Inject constructor(
     private val getCoinDetailsUseCase: GetCoinDetailsUseCase
 ) : ViewModel() {
 
-    private val mutableCryptosState = MutableStateFlow(listOf<Crypto>())
-    val cryptos = mutableCryptosState.asStateFlow() // Flow for all the cryptos on the main screen
+    private val _state = MutableStateFlow(CryptoState())
+    val state:StateFlow<CryptoState> = _state.asStateFlow()
+
+//    private val mutableCryptosState = MutableStateFlow(listOf<Crypto>())
+//    val cryptos = mutableCryptosState.asStateFlow() // Flow for all the cryptos on the main screen
 
     private val mutableFavCryptosState = MutableStateFlow(listOf<Crypto>())
     val favCryptos = mutableFavCryptosState.asStateFlow() // Flow for all the cryptos on the fav screen
@@ -61,13 +70,19 @@ class CryptoViewModel @Inject constructor(
      */
     private fun getAllCoins() {
         getAllCoinsUseCase().onEach { dataState ->
-            mutableIsLoadingState.value = dataState.loading
+            _state.value = _state.value.copy(
+             isLoading = dataState.loading
+            )
 
             dataState.data?.let { list ->
-                mutableCryptosState.value = list
+                _state.value = _state.value.copy(
+                    cryptoList = list
+                )
             }
 
-            mutableErrorState.value = dataState.error
+            _state.value = _state.value.copy(
+                error = dataState.error
+            )
         }.launchIn(viewModelScope)
     }
 
@@ -130,14 +145,16 @@ class CryptoViewModel @Inject constructor(
      * @param crypto The item clicked on the UI.
      */
     private fun refreshList(crypto: Crypto) {
-        val cryptoList = mutableCryptosState.value.toMutableList()
+        val cryptoList = _state.value.cryptoList.toMutableList()
 
         if (cryptoList.contains(crypto)) {
             val index = cryptoList.indexOf(crypto)
 
             cryptoList[index] = crypto.copy(isFavorite = !crypto.isFavorite)
 
-            mutableCryptosState.value = cryptoList
+            _state.value = CryptoState(
+                cryptoList = cryptoList
+            )
         }
     }
 
@@ -149,7 +166,7 @@ class CryptoViewModel @Inject constructor(
     fun onSearch(query: String) {
         val filteredListFlow = flow {
             if (originalCryptoList.isEmpty()) {
-                originalCryptoList.addAll(mutableCryptosState.value)
+                originalCryptoList.addAll(_state.value.cryptoList)
             }
 
             val filteredList = if (query.isNotEmpty()) {
@@ -163,7 +180,9 @@ class CryptoViewModel @Inject constructor(
 
         viewModelScope.launch {
             filteredListFlow.collect { filteredList ->
-                mutableCryptosState.value = filteredList
+                _state.value = CryptoState(
+                    cryptoList = filteredList
+                )
             }
         }
     }

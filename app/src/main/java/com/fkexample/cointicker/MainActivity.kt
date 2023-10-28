@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val cryptoViewModel: CryptoViewModel = hiltViewModel()
-            val cryptos by cryptoViewModel.cryptos.collectAsStateWithLifecycle()
+            val cryptos by cryptoViewModel.state.collectAsStateWithLifecycle()
             val favCryptos by cryptoViewModel.favCryptos.collectAsStateWithLifecycle()
             val loading by cryptoViewModel.isLoading.collectAsStateWithLifecycle()
             val isNetworkAvailable by connectivityManager.isNetworkAvailable
@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                 TickerNavHost(
                     navController = navController,
                     loading = loading,
-                    cryptos = cryptos,
+                    cryptos = cryptos.cryptoList,
                     onFavoriteClick = { crypto -> cryptoViewModel.onFavouriteClick(crypto) },
                     onSearch = { query -> cryptoViewModel.onSearch(query) },
                     favCryptos = favCryptos,

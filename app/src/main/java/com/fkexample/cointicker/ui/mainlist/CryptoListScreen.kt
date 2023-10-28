@@ -69,7 +69,8 @@ fun CryptoListScreen(
                 TopAppBar(
                     title = {
                         Text(text = stringResource(id = R.string.app_name))
-                    }, colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
                     actions = {
                         IconButton(
                             onClick = onFilterFavorites,

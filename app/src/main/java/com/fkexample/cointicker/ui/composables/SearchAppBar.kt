@@ -46,16 +46,16 @@ fun SearchAppBar(
                         .padding(dimensionResource(id = R.dimen.size_4)),
                     value = query,
                     onValueChange = {
-                        onSearch(query)
                         onQueryChanged(it)
                     },
                     label = { Text(text = stringResource(id = R.string.search)) },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Done,
+                        imeAction = ImeAction.Search,
                     ),
                     keyboardActions = KeyboardActions(
-                        onDone = {
+                        onSearch = {
+                            onSearch(query)
                             keyboardController?.hide()
                         },
                     ),

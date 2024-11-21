@@ -11,7 +11,7 @@ class ConnectionManager @Inject constructor(application: Application) {
 
     private val connectionLiveData = ConnectionLiveData(application)
 
-    val isNetworkAvailable = mutableStateOf(false)
+    val isNetworkAvailable = mutableStateOf(true)
 
     fun registerConnectionObserver(lifecycleOwner: LifecycleOwner){
         connectionLiveData.observe(lifecycleOwner) { isConnected ->

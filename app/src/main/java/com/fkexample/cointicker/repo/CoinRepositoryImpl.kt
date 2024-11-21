@@ -5,7 +5,6 @@ import com.fkexample.cointicker.cache.models.CryptoEntity
 import com.fkexample.cointicker.cache.models.CryptoFavEntity
 import com.fkexample.cointicker.mappers.toEntityList
 import com.fkexample.cointicker.network.TickerService
-import com.fkexample.cointicker.repo.models.CryptoWithUrl
 import com.fkexample.cointicker.ui.models.CryptoDetails
 import com.fkexample.cointicker.utils.EURO_SYMBOL
 import com.fkexample.cointicker.utils.GBP_SYMBOL
@@ -35,14 +34,9 @@ class CoinRepositoryImpl(
     override fun getAllCoins(): Flow<List<CryptoEntity>> {
         return flow {
             try {
-                val icons = tickerService.getAllIcons()
-                val iconMap = icons.associateBy { icon -> icon.assetId }
                 val coins = tickerService.getAllCoins()
-                val coinsWithUrl = coins.map { coin ->
-                    CryptoWithUrl(assetId = coin.assetId, name = coin.name, cryptoUrl = iconMap[coin.assetId]?.url)
-                }
 
-                coinDao.insertCoins(toEntityList(coinsWithUrl))
+                coinDao.insertCoins(toEntityList(coins))
             } catch (e: Exception) {
                 // Something went wrong with the query to the API
                 // Log the error and proceed

@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.fkexample.cointicker.R
 import com.fkexample.cointicker.ui.models.Crypto
 import com.fkexample.cointicker.utils.DateUtils
+import com.fkexample.cointicker.utils.IMAGE_BASE_URL
 
 @Composable
 fun CryptoCard(
@@ -43,7 +44,7 @@ fun CryptoCard(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(dimensionResource(id = R.dimen.size_16))
         ) {
-            CryptoImage(imageUrl = crypto.cryptoUrl)
+            CryptoImage(imageUrl = "$IMAGE_BASE_URL${crypto.cryptoUrl}")
             Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_16)))
             Column(modifier = Modifier.weight(1f)) {
                 Text(

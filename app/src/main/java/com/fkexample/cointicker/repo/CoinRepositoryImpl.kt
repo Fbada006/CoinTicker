@@ -25,7 +25,7 @@ import timber.log.Timber
 class CoinRepositoryImpl(
     private val tickerService: TickerService,
     private val coinDao: CoinDao,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : CoinRepository {
 
     /**
@@ -50,7 +50,7 @@ class CoinRepositoryImpl(
      * @param favEntity The [CryptoFavEntity] representing the favorite coin.
      */
     override suspend fun addOrRemoveFavCoin(favEntity: CryptoFavEntity) {
-        val dbFav = getFavById(favEntity.assetId)
+        val dbFav = coinDao.getFavById(favEntity.assetId)
         if (dbFav != null) {
             // This is a favorite already, so remove it from the favorites
             coinDao.deleteCoinFromFav(favEntity)
@@ -68,43 +68,31 @@ class CoinRepositoryImpl(
     }
 
     /**
-     * Retrieves the favorite coin with the specified [assetId] from the local database.
-     * @param assetId The asset ID of the favorite coin.
-     * @return The corresponding [CryptoFavEntity] if found, or null otherwise.
-     */
-    override suspend fun getFavById(assetId: String): CryptoFavEntity? {
-        return coinDao.getFavById(assetId)
-    }
-
-    /**
      * Retrieves the details of a coin with the specified [assetId] from the API and local database.
      * @param assetId The asset ID of the coin.
      * @return A flow emitting a [CryptoDetails] object representing the coin details, or null if not found.
      */
     override suspend fun getCoinDetails(assetId: String): Flow<CryptoDetails?> {
         return flow {
-            val data = tickerService.getCoinDetails(assetId).first()
+            val data = tickerService.getCoinDetails(assetId).first() // First because getting a coin details returns a list of only 1 item
             val euroAssetRate = tickerService.getCoinExchangeRate(assetIdBase = EURO_SYMBOL, assetIdQuote = assetId)
             val gbpAssetRate = tickerService.getCoinExchangeRate(assetIdBase = GBP_SYMBOL, assetIdQuote = assetId)
             val localCoinData = coinDao.getCoinById(assetId)
+            val isAllDataAvailable =
+                localCoinData != null && data.assetId == assetId && euroAssetRate.quoteAssetId == assetId && gbpAssetRate.quoteAssetId == assetId
 
-            val details =
-                if (localCoinData != null
-                    && data.assetId == assetId
-                    && euroAssetRate.quoteAssetId == assetId
-                    && gbpAssetRate.quoteAssetId == assetId
-                ) {
-                    CryptoDetails(
-                        name = localCoinData.name,
-                        dateCached = localCoinData.dateCached,
-                        url = localCoinData.cryptoUrl,
-                        priceUsd = data.priceUsd,
-                        euroToAssetRate = euroAssetRate.rate,
-                        gbpToAssetRate = gbpAssetRate.rate
-                    )
-                } else {
-                    null
-                }
+            val details = if (isAllDataAvailable) {
+                CryptoDetails(
+                    name = localCoinData!!.name,
+                    dateCached = localCoinData.dateCached,
+                    url = localCoinData.cryptoUrl,
+                    priceUsd = data.priceUsd,
+                    euroToAssetRate = euroAssetRate.rate,
+                    gbpToAssetRate = gbpAssetRate.rate
+                )
+            } else {
+                null
+            }
 
             emit(details)
         }.flowOn(dispatcher)

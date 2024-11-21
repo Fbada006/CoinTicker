@@ -9,7 +9,6 @@ interface CoinRepository {
     suspend fun getAllCoins(): Flow<List<CryptoEntity>>
     suspend fun addOrRemoveFavCoin(favEntity: CryptoFavEntity)
     suspend fun getAllFavoriteCoins(): Flow<List<CryptoFavEntity>>
-    suspend fun getFavById(assetId: String): CryptoFavEntity?
     suspend fun getCoinById(assetId: String): CryptoEntity?
     suspend fun getCoinDetails(assetId: String): Flow<CryptoDetails?>
 }

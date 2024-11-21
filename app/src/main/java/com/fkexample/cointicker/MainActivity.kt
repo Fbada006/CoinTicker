@@ -35,25 +35,26 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val cryptoViewModel: CryptoViewModel = hiltViewModel()
-            val cryptos by cryptoViewModel.cryptos.collectAsStateWithLifecycle()
-            val favCryptos by cryptoViewModel.favCryptos.collectAsStateWithLifecycle()
-            val loading by cryptoViewModel.isLoading.collectAsStateWithLifecycle()
+            val state by cryptoViewModel.state.collectAsStateWithLifecycle()
+//            val cryptos by cryptoViewModel.cryptos.collectAsStateWithLifecycle()
+//            val favCryptos by cryptoViewModel.favCryptos.collectAsStateWithLifecycle()
+//            val loading by cryptoViewModel.isLoading.collectAsStateWithLifecycle()
             val isNetworkAvailable by connectivityManager.isNetworkAvailable
-            val details by cryptoViewModel.detailCryptosState.collectAsStateWithLifecycle()
-            val error by cryptoViewModel.error.collectAsStateWithLifecycle()
+//            val details by cryptoViewModel.detailCryptosState.collectAsStateWithLifecycle()
+//            val error by cryptoViewModel.error.collectAsStateWithLifecycle()
 
             CoinTickerTheme(isNetworkAvailable = isNetworkAvailable) {
                 TickerNavHost(
                     navController = navController,
-                    loading = loading,
-                    cryptos = cryptos,
+                    loading = state.isLoading,
+                    cryptos = state.cryptos,
                     onFavoriteClick = { crypto -> cryptoViewModel.onFavouriteClick(crypto) },
                     onSearch = { query -> cryptoViewModel.onSearch(query) },
-                    favCryptos = favCryptos,
+                    favCryptos = state.favCryptos,
                     getAllFavs = { cryptoViewModel.getAllFavoriteCoins() },
-                    details = details,
+                    details = state.cryptoDetails,
                     getCoinDetails = { assetId -> cryptoViewModel.getCoinDetails(assetId) },
-                    error = error,
+                    error = state.error,
                     dismissError = { cryptoViewModel.dismissError() }
                 )
             }

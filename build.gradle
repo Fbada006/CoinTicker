@@ -1,29 +1,31 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
-        hiltVersion = '2.46.1'
-        okhttpInterceptor = '4.10.0'
-        moshiVersion = '1.15.0'
-        retrofitVersion = '2.9.0'
-        moshiConverterVersion = '2.9.0'
+        agpVersion = '8.5.2'
+        kotlinVersion = '2.0.21'
+        hiltVersion = '2.51.1'
+        okhttpInterceptor = '4.12.0'
+        moshiVersion = '1.15.1'
+        retrofitVersion = '2.11.0'
         timberVersion = '5.0.1'
-        roomVersion = "2.5.2"
+        roomVersion = "2.6.1"
         coilVersion = "2.4.0"
-        coreKtxVersion = "1.10.1"
-        lifecyleRuntimeKtxVersion = "2.6.1"
-        viewmodelComposeVersion = '2.6.1'
-        lifecycleVersion = '2.6.1'
-        composeMaterialVersion = '1.2.0-alpha02'
+        coreKtxVersion = "1.15.0"
+        lifecyleRuntimeKtxVersion = "2.8.7"
+        viewmodelComposeVersion = '2.8.7'
+        lifecycleVersion = '2.8.7'
+        composeMaterialVersion = '1.3.1'
         composeBomVersion = '2022.10.00'
-        navigationComposeVersion = '1.0.0'
-        composeActivityVersion = '1.7.2'
+        navigationComposeVersion = '1.2.0'
+        composeActivityVersion = '1.9.3'
         kotlinBomVersion = '1.8.0'
+        kspVersion = '2.0.21-1.0.27'
 
-        jUnitExtVersion = '1.1.5'
+        jUnitExtVersion = '1.2.1'
         jUnitVersion = '4.13.2'
-        espressoCoreVersion = '3.5.1'
+        espressoCoreVersion = '3.6.1'
         coreTestingVersion = '2.2.0'
-        androidxTestRunnerVersion = '1.5.2'
+        androidxTestRunnerVersion = '1.6.2'
         roboelectricVersion = '4.10.3'
         truthVersion = '1.1.5'
         coroutinesVersion = '1.7.1'
@@ -33,8 +35,8 @@ buildscript {
 }
 
 plugins {
-    id 'com.android.application' version '7.2.2' apply false
-    id 'com.android.library' version '7.2.2' apply false
-    id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
+    id 'com.android.application' version "$agpVersion" apply false
+    id 'com.google.devtools.ksp' version "$kspVersion" apply false
+    id 'org.jetbrains.kotlin.android' version "$kotlinVersion" apply false
     id 'com.google.dagger.hilt.android' version "$hiltVersion" apply false
 }

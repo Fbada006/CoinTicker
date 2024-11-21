@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'org.jetbrains.kotlin.plugin.compose' version "$kotlinVersion"
+    id 'com.google.devtools.ksp'
 }
 
 def localPropertiesFile = rootProject.file("local.properties")
@@ -11,12 +13,12 @@ localProperties.load(new FileInputStream(localPropertiesFile))
 
 android {
     namespace 'com.fkexample.cointicker'
-    compileSdk 33
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.fkexample.cointicker"
         minSdk 24
-        targetSdk 33
+        targetSdk 35
         versionCode 1
         versionName "1.0"
 
@@ -34,14 +36,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     buildFeatures {
         compose true
+        buildConfig true
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.3.2'
@@ -72,7 +75,7 @@ dependencies {
 
     // Retrofit
     api "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
-    api "com.squareup.retrofit2:converter-moshi:$rootProject.moshiConverterVersion"
+    api "com.squareup.retrofit2:converter-moshi:$rootProject.retrofitVersion"
 
     // Moshi for parsing the JSON format
     api "com.squareup.moshi:moshi:$rootProject.moshiVersion"
@@ -92,7 +95,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
     implementation "androidx.room:room-ktx:$rootProject.roomVersion"
     implementation "androidx.room:room-paging:$rootProject.roomVersion"
-    kapt "androidx.room:room-compiler:$rootProject.roomVersion"
+    ksp "androidx.room:room-compiler:$rootProject.roomVersion"
 
     //Coil
     implementation "io.coil-kt:coil-compose:$rootProject.coilVersion"

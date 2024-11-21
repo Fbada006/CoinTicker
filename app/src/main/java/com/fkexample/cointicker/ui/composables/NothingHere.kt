@@ -33,7 +33,7 @@ fun NothingHere() {
                     .padding(dimensionResource(id = R.dimen.size_8))
                     .align(Alignment.CenterHorizontally),
                 text = stringResource(R.string.there_is_no_data_to_display_at_the_moment),
-                style = MaterialTheme.typography.headlineMedium
+                style = MaterialTheme.typography.bodyMedium
             )
         }
 

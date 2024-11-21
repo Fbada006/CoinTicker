@@ -3,7 +3,6 @@ package com.fkexample.cointicker.ui.mainlist
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -40,7 +39,7 @@ import com.fkexample.cointicker.ui.composables.SearchAppBar
 import com.fkexample.cointicker.ui.models.Crypto
 import com.fkexample.cointicker.utils.getErrorMessage
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun CryptoListScreen(
     loading: Boolean,

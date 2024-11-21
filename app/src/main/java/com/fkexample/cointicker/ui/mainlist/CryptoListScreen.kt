@@ -133,7 +133,7 @@ fun CryptoListScreen(
                             crypto = crypto,
                             onCardClick = { onCardClick(crypto) },
                             onFavoriteClick = onFavoriteClick,
-                            modifier = Modifier.animateItemPlacement()
+                            modifier = Modifier.animateItem()
                         )
                     }
                 }

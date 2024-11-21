@@ -56,8 +56,8 @@ fun LikeToggleButton(
                 if (false isTransitioningTo true) {
                     keyframes {
                         durationMillis = 250
-                        30.dp at 0 with LinearOutSlowInEasing
-                        35.dp at 15 with FastOutLinearInEasing
+                        30.dp at 0 using  LinearOutSlowInEasing
+                        35.dp at 15 using  FastOutLinearInEasing
                         40.dp at 75
                         35.dp at 150
                     }

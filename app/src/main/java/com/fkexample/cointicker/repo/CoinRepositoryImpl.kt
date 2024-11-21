@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 
 /**
@@ -31,21 +32,17 @@ class CoinRepositoryImpl(
      * Retrieves a flow of all coins, combining data from the API and local database.
      * @return A flow emitting a list of [CryptoEntity] objects representing the coins.
      */
-    override fun getAllCoins(): Flow<List<CryptoEntity>> {
-        return flow {
-            try {
-                val coins = tickerService.getAllCoins()
-
-                coinDao.insertCoins(toEntityList(coins))
-            } catch (e: Exception) {
-                // Something went wrong with the query to the API
-                // Log the error and proceed
-                Timber.e(e)
+    override suspend fun getAllCoins(): Flow<List<CryptoEntity>> {
+        return coinDao.getAllCoins()
+            .flowOn(dispatcher)
+            .onStart {
+                try {
+                    val coins = tickerService.getAllCoins()
+                    coinDao.insertCoins(toEntityList(coins))
+                } catch (e: Exception) {
+                    Timber.e(e, "Failed to fetch coins from API")
+                }
             }
-
-            emit(coinDao.getAllCoins())
-
-        }.flowOn(dispatcher)
     }
 
     /**
@@ -67,9 +64,7 @@ class CoinRepositoryImpl(
      * @return A flow emitting a list of [CryptoFavEntity] objects representing the favorite coins.
      */
     override suspend fun getAllFavoriteCoins(): Flow<List<CryptoFavEntity>> {
-        return flow {
-            emit(coinDao.getAllFavoriteCoins())
-        }.flowOn(dispatcher)
+        return coinDao.getAllFavoriteCoins().flowOn(dispatcher)
     }
 
     /**

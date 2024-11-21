@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.fkexample.cointicker.cache.models.CryptoEntity
 import com.fkexample.cointicker.cache.models.CryptoFavEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CoinDao {
@@ -15,7 +16,7 @@ interface CoinDao {
     suspend fun insertCoins(coins: List<CryptoEntity>): LongArray
 
     @Query("SELECT * FROM coins")
-    suspend fun getAllCoins(): List<CryptoEntity>
+    fun getAllCoins(): Flow<List<CryptoEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavCoin(favEntity: CryptoFavEntity)
@@ -24,7 +25,7 @@ interface CoinDao {
     suspend fun deleteCoinFromFav(favEntity: CryptoFavEntity)
 
     @Query("SELECT * FROM fav_coins")
-    suspend fun getAllFavoriteCoins(): List<CryptoFavEntity>
+    fun getAllFavoriteCoins(): Flow<List<CryptoFavEntity>>
 
     @Query("SELECT * FROM fav_coins WHERE asset_id LIKE :assetId")
     suspend fun getFavById(assetId: String): CryptoFavEntity?

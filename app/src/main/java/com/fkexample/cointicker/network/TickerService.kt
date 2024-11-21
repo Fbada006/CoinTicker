@@ -1,7 +1,6 @@
 package com.fkexample.cointicker.network
 
 import com.fkexample.cointicker.network.models.CryptoDataNetwork
-import com.fkexample.cointicker.network.models.CryptoImageNetwork
 import com.fkexample.cointicker.network.models.CryptoNetwork
 import com.fkexample.cointicker.network.models.CryptoReferenceNetwork
 import retrofit2.http.GET
@@ -18,13 +17,6 @@ interface TickerService {
      */
     @GET("assets")
     suspend fun getAllCoins(): List<CryptoNetwork>
-
-    /**
-     * Fetches a list of all coin icons.
-     * @return A list of [CryptoImageNetwork] objects representing the coin icons.
-     */
-    @GET("assets/icons/128")
-    suspend fun getAllIcons(): List<CryptoImageNetwork>
 
     /**
      * Fetches details of a specific coin.

@@ -7,7 +7,7 @@
     <string name="last_updated">"Last updated: %s"</string>
     <string name="asset_id_details_label">"Crypto Details"</string>
     <string name="there_is_no_data_to_display_at_the_moment">There is no data to display at the moment.</string>
-    <string name="nothing_illustration">¯\\_(ツ)_/¯</string>
+    <string name="nothing_illustration">  ¯\\_(ツ)_/¯  </string>
     <string name="cd_close_button">Close button</string>
     <string name="search">Search</string>
     <string name="search_icon">Search Icon</string>
@@ -31,4 +31,5 @@
     <string name="server_error">The server cannot fulfill your request at this time. Please wait and try again later.</string>
     <string name="something_went_wrong_network">Something went wrong while attempting to connect to the server. Please try again later.</string>
     <string name="no_internet">The attempt to connect to the server has failed. Please check you have a working internet connection and try again.</string>
+
 </resources>

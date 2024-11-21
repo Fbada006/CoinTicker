@@ -3,7 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
-    id("org.jetbrains.kotlin.plugin.compose") version "$kotlinVersion"
+    id 'org.jetbrains.kotlin.plugin.compose' version "$kotlinVersion"
+    id 'com.google.devtools.ksp'
 }
 
 def localPropertiesFile = rootProject.file("local.properties")
@@ -94,7 +95,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
     implementation "androidx.room:room-ktx:$rootProject.roomVersion"
     implementation "androidx.room:room-paging:$rootProject.roomVersion"
-    kapt "androidx.room:room-compiler:$rootProject.roomVersion"
+    ksp "androidx.room:room-compiler:$rootProject.roomVersion"
 
     //Coil
     implementation "io.coil-kt:coil-compose:$rootProject.coilVersion"

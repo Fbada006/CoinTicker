@@ -19,6 +19,7 @@ buildscript {
         navigationComposeVersion = '1.2.0'
         composeActivityVersion = '1.9.3'
         kotlinBomVersion = '1.8.0'
+        kspVersion = '2.0.21-1.0.27'
 
         jUnitExtVersion = '1.2.1'
         jUnitVersion = '4.13.2'
@@ -36,6 +37,7 @@ buildscript {
 plugins {
     id 'com.android.application' version "$agpVersion" apply false
     id 'com.android.library' version "$agpVersion" apply false
+    id 'com.google.devtools.ksp' version "$kspVersion" apply false
     id 'org.jetbrains.kotlin.android' version "$kotlinVersion" apply false
     id 'com.google.dagger.hilt.android' version "$hiltVersion" apply false
 }

@@ -7,16 +7,16 @@ package com.fkexample.cointicker.mappers
 
 import com.fkexample.cointicker.cache.models.CryptoEntity
 import com.fkexample.cointicker.cache.models.CryptoFavEntity
-import com.fkexample.cointicker.repo.models.CryptoWithUrl
+import com.fkexample.cointicker.network.models.CryptoNetwork
 import com.fkexample.cointicker.ui.models.Crypto
 
 /**
- * Converts a list of [CryptoWithUrl] objects to a list of [CryptoEntity] objects.
+ * Converts a list of [CryptoNetwork] objects to a list of [CryptoEntity] objects.
  *
- * @param data The list of [CryptoWithUrl] objects to be converted.
+ * @param data The list of [CryptoNetwork] objects to be converted.
  * @return The list of [CryptoEntity] objects.
  */
-fun toEntityList(data: List<CryptoWithUrl>): List<CryptoEntity> {
+fun toEntityList(data: List<CryptoNetwork>): List<CryptoEntity> {
     return data.map { cryptoNetwork -> mapFromDomainModel(cryptoNetwork) }
 }
 
@@ -41,16 +41,16 @@ fun fromFavEntityList(data: List<CryptoFavEntity>): List<Crypto> {
 }
 
 /**
- * Converts a [CryptoWithUrl] object to a [CryptoEntity] object for cache storage.
+ * Converts a [CryptoNetwork] object to a [CryptoEntity] object for cache storage.
  *
- * @param model The [CryptoWithUrl] object to be converted.
+ * @param model The [CryptoNetwork] object to be converted.
  * @return The corresponding [CryptoEntity] object.
  */
-private fun mapFromDomainModel(model: CryptoWithUrl) =
+private fun mapFromDomainModel(model: CryptoNetwork) =
     CryptoEntity(
         assetId = model.assetId,
         name = model.name,
-        cryptoUrl = model.cryptoUrl,
+        cryptoUrl = "${model.iconId?.replace("-","")}.png",
         dateCached = System.currentTimeMillis()
     )
 

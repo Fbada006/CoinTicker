@@ -25,9 +25,9 @@ class CoinRepositoryImplTest {
     @Test
     fun `getAllCoins should emit non empty list`() = runTest {
         val mockCoins = listOf(
-            CryptoNetwork(assetId = "BTC", name = "Bitcoin"),
-            CryptoNetwork(assetId = "ETH", name = "Ethereum"),
-            CryptoNetwork(assetId = "XRP", name = "Ripple")
+            CryptoNetwork(assetId = "BTC", name = "Bitcoin", iconId = null),
+            CryptoNetwork(assetId = "ETH", name = "Ethereum", iconId = null),
+            CryptoNetwork(assetId = "XRP", name = "Ripple", iconId = null)
         )
         val mockIcons = listOf(
             CryptoImageNetwork(assetId = "BTC", url = "https://example.com/btc.png"),

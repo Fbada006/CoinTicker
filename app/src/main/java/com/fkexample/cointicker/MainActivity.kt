@@ -36,12 +36,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val cryptoViewModel: CryptoViewModel = hiltViewModel()
             val state by cryptoViewModel.state.collectAsStateWithLifecycle()
-//            val cryptos by cryptoViewModel.cryptos.collectAsStateWithLifecycle()
-//            val favCryptos by cryptoViewModel.favCryptos.collectAsStateWithLifecycle()
-//            val loading by cryptoViewModel.isLoading.collectAsStateWithLifecycle()
             val isNetworkAvailable by connectivityManager.isNetworkAvailable
-//            val details by cryptoViewModel.detailCryptosState.collectAsStateWithLifecycle()
-//            val error by cryptoViewModel.error.collectAsStateWithLifecycle()
 
             CoinTickerTheme(isNetworkAvailable = isNetworkAvailable) {
                 TickerNavHost(

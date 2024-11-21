@@ -7,5 +7,7 @@ import com.squareup.moshi.JsonClass
 data class CryptoNetwork(
     @Json(name = "asset_id")
     val assetId: String,
-    val name: String
+    val name: String,
+    @Json(name = "id_icon")
+    val iconId: String?
 )

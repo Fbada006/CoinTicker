@@ -22,20 +22,18 @@ class GetAllCoinsUseCase(private val coinRepository: CoinRepository) {
      */
     operator fun invoke(): Flow<DataState<List<Crypto>>> = flow {
         coinRepository.getAllCoins().combine(coinRepository.getAllFavoriteCoins()) { cryptos, favorites ->
-            Pair(cryptos, favorites)
+            val favoriteIds = favorites.mapTo(HashSet()) { it.assetId } // HashSet has 01 lookups
+
+            fromEntityList(cryptos).map { crypto ->
+                crypto.apply {
+                    isFavorite = favoriteIds.contains(assetId)
+                }
+            }
         }.onStart {
             emit(DataState.loading())
         }.catch { error ->
             emit(DataState.error(error))
-        }.collect { listPair ->
-            val coins = fromEntityList(listPair.first)
-            val favMap = listPair.second.associateBy { it.assetId }
-
-            coins.forEach { crypto ->
-                val isFavorite = favMap[crypto.assetId] != null
-                crypto.isFavorite = isFavorite
-            }
-
+        }.collect { coins ->
             emit(DataState.success(coins))
         }
     }

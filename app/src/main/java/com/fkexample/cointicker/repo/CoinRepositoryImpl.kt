@@ -3,7 +3,6 @@ package com.fkexample.cointicker.repo
 import com.fkexample.cointicker.cache.CoinDao
 import com.fkexample.cointicker.cache.models.CryptoAssetEntity
 import com.fkexample.cointicker.cache.models.CryptoEntity
-//import com.fkexample.cointicker.cache.models.CryptoFavEntity
 import com.fkexample.cointicker.mappers.toEntityList
 import com.fkexample.cointicker.network.TickerService
 import com.fkexample.cointicker.ui.models.CryptoDetails
@@ -46,14 +45,17 @@ class CoinRepositoryImpl(
             }
     }
 
-    override suspend fun updateCoin(coin: CryptoEntity) {
+    /**
+     * Updates the the supplied [coin]'s favourite status in the db
+     */
+    override suspend fun updateFavourite(coin: CryptoEntity) {
         val isFav = coinDao.getCoinById(coin.assetId)?.isFavourite ?: false
-        coinDao.updateCoin(coin.copy(isFavourite = !isFav))
+        coinDao.updateFavourite(coin.copy(isFavourite = !isFav))
     }
 
     /**
      * Adds or removes a favorite coin based on the provided [favEntity].
-     * @param favEntity The [CryptoFavEntity] representing the favorite coin.
+     * @param favEntity The [CryptoAssetEntity] representing the favorite coin.
      */
     override suspend fun addOrRemoveFavCoin(favEntity: CryptoAssetEntity) {
         val dbFav = coinDao.getFavById(favEntity.assetId)
@@ -67,7 +69,7 @@ class CoinRepositoryImpl(
 
     /**
      * Retrieves a flow of all favorite coins from the local database.
-     * @return A flow emitting a list of [CryptoFavEntity] objects representing the favorite coins.
+     * @return A flow emitting a list of [CryptoEntity] objects representing the favorite coins.
      */
     override suspend fun getAllFavoriteCoins(): Flow<List<CryptoEntity>> {
         return coinDao.getAllFavoriteCoins().flowOn(dispatcher)

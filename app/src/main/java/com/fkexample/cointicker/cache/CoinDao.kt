@@ -17,8 +17,11 @@ interface CoinDao {
     suspend fun insertCoins(coins: List<CryptoEntity>): LongArray
 
     @Update
-    suspend fun updateCoin(coin: CryptoEntity)
+    suspend fun updateFavourite(coin: CryptoEntity)
 
+    // This query does the following
+    // 1.check if each coin exists in the favourites table using the LEFT JOIN
+    // 2.sets the isFavourite flag of the entity to true (1) if the coin exists in favourites table otherwise false (0)
     @Query("""
         SELECT c.*,
         CASE WHEN f.asset_id IS NOT NULL THEN 1 ELSE 0 END AS isFavourite
@@ -33,6 +36,7 @@ interface CoinDao {
     @Delete
     suspend fun deleteCoinFromFav(favEntity: CryptoAssetEntity)
 
+    // Query returns all the coins whose assets ids are in the favourites table
     @Query(
         """
     SELECT c.* FROM coins c 

@@ -22,11 +22,11 @@ class GetAllCoinsUseCase(private val coinRepository: CoinRepository) {
     operator fun invoke(): Flow<DataState<List<Crypto>>> = flow {
         coinRepository.getAllCoins()
             .onStart {
-            emit(DataState.loading())
-        }.catch { error ->
-            emit(DataState.error(error))
-        }.collect { coins ->
-            emit(DataState.success(fromEntityList(coins)))
-        }
+                emit(DataState.loading())
+            }.catch { error ->
+                emit(DataState.error(error))
+            }.collect { coins ->
+                emit(DataState.success(fromEntityList(coins)))
+            }
     }
 }

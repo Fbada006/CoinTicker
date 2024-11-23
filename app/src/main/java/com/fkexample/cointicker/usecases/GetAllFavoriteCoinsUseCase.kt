@@ -1,6 +1,6 @@
 package com.fkexample.cointicker.usecases
 
-import com.fkexample.cointicker.mappers.fromFavEntityList
+import com.fkexample.cointicker.mappers.fromEntityList
 import com.fkexample.cointicker.repo.CoinRepository
 import com.fkexample.cointicker.ui.models.Crypto
 import com.fkexample.cointicker.utils.DataState
@@ -26,7 +26,7 @@ class GetAllFavoriteCoinsUseCase(private val coinRepository: CoinRepository) {
             }.catch { error ->
                 emit(DataState.error(error))
             }.collect { favEntityList ->
-                val coins = fromFavEntityList(favEntityList)
+                val coins = fromEntityList(favEntityList)
 
                 emit(DataState.success(coins))
             }

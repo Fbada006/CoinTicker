@@ -1,6 +1,7 @@
 package com.fkexample.cointicker.usecases
 
-import com.fkexample.cointicker.mappers.presentationModelToFavEntity
+//import com.fkexample.cointicker.mappers.presentationModelToFavEntity
+import com.fkexample.cointicker.cache.models.CryptoAssetEntity
 import com.fkexample.cointicker.repo.CoinRepository
 import com.fkexample.cointicker.ui.models.Crypto
 
@@ -15,6 +16,6 @@ class AddCoinToFavoriteUseCase(private val coinRepository: CoinRepository) {
      * @param crypto The [Crypto] object representing the coin to be added.
      */
     suspend operator fun invoke(crypto: Crypto) {
-        coinRepository.addOrRemoveFavCoin(presentationModelToFavEntity(crypto))
+        coinRepository.addOrRemoveFavCoin(CryptoAssetEntity(crypto.assetId))
     }
 }

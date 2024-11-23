@@ -107,14 +107,6 @@ The pipeline also runs unit tests. The status of the build is displayed at the t
    and then querying it to display the data since that is the source of truth. This means the app is a few seconds slower as opposed to when
    pagination
    is used. Through the use of Kotlin Flow and Jetpack Compose's `LazyColumn`, this has been more or less mitigated and the user interface is smooth.
-2. Another challenge in the app has been how to handle the favorite feature from the main list while at the same
-   time providing a
-   smooth user experience. One of the things I did was refresh the entire list once the favorite button was clicked for
-   an item but the list
-   appeared to jump. This forced a rethink where I solved it by working on a background thread to save the favorite in
-   the db
-   then update the list in memory once the favorite operation is completed, which triggers a recomposition of the list
-   in a smooth way.
 
 
 ```

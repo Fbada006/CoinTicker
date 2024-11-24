@@ -46,14 +46,6 @@ class CoinRepositoryImpl(
     }
 
     /**
-     * Updates the the supplied [coin]'s favourite status in the db
-     */
-    override suspend fun updateFavourite(coin: CryptoEntity) {
-        val isFav = coinDao.getCoinById(coin.assetId)?.isFavourite ?: false
-        coinDao.updateFavourite(coin.copy(isFavourite = !isFav))
-    }
-
-    /**
      * Adds or removes a favorite coin based on the provided [favEntity].
      * @param favEntity The [CryptoAssetEntity] representing the favorite coin.
      */

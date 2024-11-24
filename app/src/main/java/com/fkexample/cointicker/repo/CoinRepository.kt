@@ -6,7 +6,6 @@ import com.fkexample.cointicker.ui.models.CryptoDetails
 import kotlinx.coroutines.flow.Flow
 
 interface CoinRepository {
-    suspend fun updateFavourite(coin: CryptoEntity)
     suspend fun getAllCoins(): Flow<List<CryptoEntity>>
     suspend fun addOrRemoveFavCoin(favEntity: CryptoAssetEntity)
     suspend fun getAllFavoriteCoins(): Flow<List<CryptoEntity>>

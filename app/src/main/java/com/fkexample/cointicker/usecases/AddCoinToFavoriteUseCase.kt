@@ -1,6 +1,5 @@
 package com.fkexample.cointicker.usecases
 
-//import com.fkexample.cointicker.mappers.presentationModelToFavEntity
 import com.fkexample.cointicker.cache.models.CryptoAssetEntity
 import com.fkexample.cointicker.repo.CoinRepository
 import com.fkexample.cointicker.ui.models.Crypto

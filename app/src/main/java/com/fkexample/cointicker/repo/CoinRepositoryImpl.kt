@@ -1,8 +1,8 @@
 package com.fkexample.cointicker.repo
 
 import com.fkexample.cointicker.cache.CoinDao
+import com.fkexample.cointicker.cache.models.CryptoAssetEntity
 import com.fkexample.cointicker.cache.models.CryptoEntity
-import com.fkexample.cointicker.cache.models.CryptoFavEntity
 import com.fkexample.cointicker.mappers.toEntityList
 import com.fkexample.cointicker.network.TickerService
 import com.fkexample.cointicker.ui.models.CryptoDetails
@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onStart
 import timber.log.Timber
 
 /**
@@ -24,36 +25,32 @@ import timber.log.Timber
 class CoinRepositoryImpl(
     private val tickerService: TickerService,
     private val coinDao: CoinDao,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : CoinRepository {
 
     /**
      * Retrieves a flow of all coins, combining data from the API and local database.
      * @return A flow emitting a list of [CryptoEntity] objects representing the coins.
      */
-    override fun getAllCoins(): Flow<List<CryptoEntity>> {
-        return flow {
-            try {
-                val coins = tickerService.getAllCoins()
-
-                coinDao.insertCoins(toEntityList(coins))
-            } catch (e: Exception) {
-                // Something went wrong with the query to the API
-                // Log the error and proceed
-                Timber.e(e)
+    override suspend fun getAllCoins(): Flow<List<CryptoEntity>> {
+        return coinDao.getAllCoins()
+            .flowOn(dispatcher)
+            .onStart {
+                try {
+                    val coins = tickerService.getAllCoins()
+                    coinDao.insertCoins(toEntityList(coins))
+                } catch (e: Exception) {
+                    Timber.e(e, "Failed to fetch coins from API")
+                }
             }
-
-            emit(coinDao.getAllCoins())
-
-        }.flowOn(dispatcher)
     }
 
     /**
      * Adds or removes a favorite coin based on the provided [favEntity].
-     * @param favEntity The [CryptoFavEntity] representing the favorite coin.
+     * @param favEntity The [CryptoAssetEntity] representing the favorite coin.
      */
-    override suspend fun addOrRemoveFavCoin(favEntity: CryptoFavEntity) {
-        val dbFav = getFavById(favEntity.assetId)
+    override suspend fun addOrRemoveFavCoin(favEntity: CryptoAssetEntity) {
+        val dbFav = coinDao.getFavById(favEntity.assetId)
         if (dbFav != null) {
             // This is a favorite already, so remove it from the favorites
             coinDao.deleteCoinFromFav(favEntity)
@@ -64,21 +61,10 @@ class CoinRepositoryImpl(
 
     /**
      * Retrieves a flow of all favorite coins from the local database.
-     * @return A flow emitting a list of [CryptoFavEntity] objects representing the favorite coins.
+     * @return A flow emitting a list of [CryptoEntity] objects representing the favorite coins.
      */
-    override suspend fun getAllFavoriteCoins(): Flow<List<CryptoFavEntity>> {
-        return flow {
-            emit(coinDao.getAllFavoriteCoins())
-        }.flowOn(dispatcher)
-    }
-
-    /**
-     * Retrieves the favorite coin with the specified [assetId] from the local database.
-     * @param assetId The asset ID of the favorite coin.
-     * @return The corresponding [CryptoFavEntity] if found, or null otherwise.
-     */
-    override suspend fun getFavById(assetId: String): CryptoFavEntity? {
-        return coinDao.getFavById(assetId)
+    override suspend fun getAllFavoriteCoins(): Flow<List<CryptoEntity>> {
+        return coinDao.getAllFavoriteCoins().flowOn(dispatcher)
     }
 
     /**
@@ -88,28 +74,25 @@ class CoinRepositoryImpl(
      */
     override suspend fun getCoinDetails(assetId: String): Flow<CryptoDetails?> {
         return flow {
-            val data = tickerService.getCoinDetails(assetId).first()
+            val data = tickerService.getCoinDetails(assetId).first() // First because getting a coin details returns a list of only 1 item
             val euroAssetRate = tickerService.getCoinExchangeRate(assetIdBase = EURO_SYMBOL, assetIdQuote = assetId)
             val gbpAssetRate = tickerService.getCoinExchangeRate(assetIdBase = GBP_SYMBOL, assetIdQuote = assetId)
             val localCoinData = coinDao.getCoinById(assetId)
+            val isAllDataAvailable =
+                localCoinData != null && data.assetId == assetId && euroAssetRate.quoteAssetId == assetId && gbpAssetRate.quoteAssetId == assetId
 
-            val details =
-                if (localCoinData != null
-                    && data.assetId == assetId
-                    && euroAssetRate.quoteAssetId == assetId
-                    && gbpAssetRate.quoteAssetId == assetId
-                ) {
-                    CryptoDetails(
-                        name = localCoinData.name,
-                        dateCached = localCoinData.dateCached,
-                        url = localCoinData.cryptoUrl,
-                        priceUsd = data.priceUsd,
-                        euroToAssetRate = euroAssetRate.rate,
-                        gbpToAssetRate = gbpAssetRate.rate
-                    )
-                } else {
-                    null
-                }
+            val details = if (isAllDataAvailable) {
+                CryptoDetails(
+                    name = localCoinData!!.name,
+                    dateCached = localCoinData.dateCached,
+                    url = localCoinData.cryptoUrl,
+                    priceUsd = data.priceUsd,
+                    euroToAssetRate = euroAssetRate.rate,
+                    gbpToAssetRate = gbpAssetRate.rate
+                )
+            } else {
+                null
+            }
 
             emit(details)
         }.flowOn(dispatcher)

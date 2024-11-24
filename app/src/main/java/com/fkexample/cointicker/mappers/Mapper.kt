@@ -6,7 +6,6 @@
 package com.fkexample.cointicker.mappers
 
 import com.fkexample.cointicker.cache.models.CryptoEntity
-import com.fkexample.cointicker.cache.models.CryptoFavEntity
 import com.fkexample.cointicker.network.models.CryptoNetwork
 import com.fkexample.cointicker.ui.models.Crypto
 
@@ -28,16 +27,6 @@ fun toEntityList(data: List<CryptoNetwork>): List<CryptoEntity> {
  */
 fun fromEntityList(data: List<CryptoEntity>): List<Crypto> {
     return data.map { cryptoEntity -> mapToPresentationModel(cryptoEntity) }
-}
-
-/**
- * Converts a list of [CryptoFavEntity] objects to a list of [Crypto] objects for UI presentation.
- *
- * @param data The list of [CryptoFavEntity] objects to be converted.
- * @return The list of [Crypto] objects.
- */
-fun fromFavEntityList(data: List<CryptoFavEntity>): List<Crypto> {
-    return data.map { cryptoEntity -> favEntityToPresentationModel(cryptoEntity) }
 }
 
 /**
@@ -65,28 +54,6 @@ private fun mapToPresentationModel(model: CryptoEntity) =
         assetId = model.assetId,
         name = model.name,
         cryptoUrl = model.cryptoUrl,
-        dateCached = model.dateCached
+        dateCached = model.dateCached,
+        isFavorite = model.isFavourite
     )
-
-/**
- * Converts a [CryptoFavEntity] object to a [Crypto] object for UI presentation.
- *
- * @param model The [CryptoFavEntity] object to be converted.
- * @return The corresponding [Crypto] object.
- */
-fun favEntityToPresentationModel(model: CryptoFavEntity) =
-    Crypto(
-        assetId = model.assetId,
-        name = model.name,
-        cryptoUrl = model.cryptoUrl,
-        dateCached = model.dateCached
-    )
-
-/**
- * Converts a [Crypto] object to a [CryptoFavEntity] object for storage as a favorite coin.
- *
- * @param model The [Crypto] object to be converted.
- * @return The corresponding [CryptoFavEntity] object.
- */
-fun presentationModelToFavEntity(model: Crypto) =
-    CryptoFavEntity(assetId = model.assetId, name = model.name, cryptoUrl = model.cryptoUrl, dateCached = model.dateCached)

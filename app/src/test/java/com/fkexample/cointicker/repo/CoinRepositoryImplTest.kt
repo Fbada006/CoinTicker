@@ -4,12 +4,12 @@ import app.cash.turbine.test
 import com.fkexample.cointicker.cache.CoinDao
 import com.fkexample.cointicker.cache.models.CryptoEntity
 import com.fkexample.cointicker.network.TickerService
-import com.fkexample.cointicker.network.models.CryptoImageNetwork
 import com.fkexample.cointicker.network.models.CryptoNetwork
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
@@ -29,11 +29,6 @@ class CoinRepositoryImplTest {
             CryptoNetwork(assetId = "ETH", name = "Ethereum", iconId = null),
             CryptoNetwork(assetId = "XRP", name = "Ripple", iconId = null)
         )
-        val mockIcons = listOf(
-            CryptoImageNetwork(assetId = "BTC", url = "https://example.com/btc.png"),
-            CryptoImageNetwork(assetId = "ETH", url = "https://example.com/eth.png"),
-            CryptoImageNetwork(assetId = "XRP", url = "https://example.com/xrp.png")
-        )
         val cryptoEntities = listOf(
             CryptoEntity(assetId = "BTC", name = "Bitcoin", cryptoUrl = "https://example.com/btc.png", dateCached = 1627513200000),
             CryptoEntity(assetId = "ETH", name = "Ethereum", cryptoUrl = "https://example.com/eth.png", dateCached = 1627513200000),
@@ -42,8 +37,7 @@ class CoinRepositoryImplTest {
 
 
         coEvery { tickerService.getAllCoins() } returns mockCoins
-        coEvery { tickerService.getAllIcons() } returns mockIcons
-        coEvery { coinDao.getAllCoins() } returns cryptoEntities
+        coEvery { coinDao.getAllCoins() } returns flowOf(cryptoEntities)
 
         coinRepository.getAllCoins().test {
             assertThat(awaitItem().size).isEqualTo(3)
@@ -60,8 +54,7 @@ class CoinRepositoryImplTest {
         )
 
         coEvery { tickerService.getAllCoins() } throws Exception()
-        coEvery { tickerService.getAllIcons() } throws Exception()
-        coEvery { coinDao.getAllCoins() } returns cryptoEntities
+        coEvery { coinDao.getAllCoins() } returns flowOf(cryptoEntities)
 
         coinRepository.getAllCoins().test {
             assertThat(awaitItem().size).isEqualTo(3)

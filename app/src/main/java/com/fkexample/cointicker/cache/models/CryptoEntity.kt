@@ -13,5 +13,6 @@ data class CryptoEntity(
     @ColumnInfo(name = "crypto_url")
     val cryptoUrl: String?,
     @ColumnInfo(name = "date_cached")
-    val dateCached: Long
+    val dateCached: Long,
+    val isFavourite: Boolean = false,
 )

@@ -1,9 +1,7 @@
 package com.fkexample.cointicker.usecases
 
 import com.fkexample.cointicker.cache.CoinDao
-import com.fkexample.cointicker.cache.models.CryptoFavEntity
-import com.fkexample.cointicker.mappers.favEntityToPresentationModel
-import com.fkexample.cointicker.mappers.presentationModelToFavEntity
+import com.fkexample.cointicker.cache.models.CryptoAssetEntity
 import com.fkexample.cointicker.repo.CoinRepository
 import com.fkexample.cointicker.repo.CoinRepositoryImpl
 import com.fkexample.cointicker.ui.models.Crypto
@@ -28,18 +26,18 @@ class AddCoinToFavoriteUseCaseTest {
         addCoinToFavoriteUseCase(crypto)
 
         coVerify(exactly = 1) {
-            dao.insertFavCoin(presentationModelToFavEntity(crypto))
+            dao.insertFavCoin(CryptoAssetEntity(crypto.assetId))
         }
     }
 
     @Test
     fun `adding coin to favorites succeeds when fav does exist`() = runTest {
-        val favEntity = CryptoFavEntity(assetId = "idque", name = "Coy Nolan", cryptoUrl = null, dateCached = 9070)
+        val favEntity = CryptoAssetEntity(assetId = "idque")
         coEvery { dao.getFavById(any()) } returns favEntity
 
         val addCoinToFavoriteUseCase = AddCoinToFavoriteUseCase(coinRepository)
 
-        addCoinToFavoriteUseCase(favEntityToPresentationModel(favEntity))
+        addCoinToFavoriteUseCase(Crypto(assetId = "idque", name = "Dolores McGuire", cryptoUrl = null, dateCached = 6697))
 
         coVerify(exactly = 1) {
             dao.deleteCoinFromFav(favEntity)

@@ -6,7 +6,6 @@ import com.fkexample.cointicker.ui.models.Crypto
 import com.fkexample.cointicker.utils.DataState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 
@@ -21,22 +20,13 @@ class GetAllCoinsUseCase(private val coinRepository: CoinRepository) {
      * @return A [Flow] emitting [DataState] containing a list of [Crypto] objects.
      */
     operator fun invoke(): Flow<DataState<List<Crypto>>> = flow {
-        coinRepository.getAllCoins().combine(coinRepository.getAllFavoriteCoins()) { cryptos, favorites ->
-            Pair(cryptos, favorites)
-        }.onStart {
-            emit(DataState.loading())
-        }.catch { error ->
-            emit(DataState.error(error))
-        }.collect { listPair ->
-            val coins = fromEntityList(listPair.first)
-            val favMap = listPair.second.associateBy { it.assetId }
-
-            coins.forEach { crypto ->
-                val isFavorite = favMap[crypto.assetId] != null
-                crypto.isFavorite = isFavorite
+        coinRepository.getAllCoins()
+            .onStart {
+                emit(DataState.loading())
+            }.catch { error ->
+                emit(DataState.error(error))
+            }.collect { coins ->
+                emit(DataState.success(fromEntityList(coins)))
             }
-
-            emit(DataState.success(coins))
-        }
     }
 }

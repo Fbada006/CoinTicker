@@ -39,6 +39,7 @@ import com.fkexample.cointicker.ui.composables.ErrorDialog
 import com.fkexample.cointicker.ui.composables.LoadingCryptoListShimmer
 import com.fkexample.cointicker.ui.models.CryptoDetails
 import com.fkexample.cointicker.ui.theme.detailsDisplayTitleStyle
+import com.fkexample.cointicker.utils.IMAGE_BASE_URL
 import com.fkexample.cointicker.utils.getErrorMessage
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -100,7 +101,7 @@ fun CryptoDetailsScreen(
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
-                                    CryptoImage(imageUrl = details.url)
+                                    CryptoImage(imageUrl = "$IMAGE_BASE_URL${details.iconId}")
                                     Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_16)))
                                     Text(
                                         text = details.name,

@@ -1,5 +1,8 @@
 package com.fkexample.cointicker.ui.models
 
+import androidx.compose.runtime.Stable
+
+@Stable
 data class Crypto(
     val assetId: String,
     val name: String,

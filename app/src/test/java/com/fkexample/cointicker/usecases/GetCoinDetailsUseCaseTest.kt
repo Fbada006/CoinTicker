@@ -33,7 +33,7 @@ class GetCoinDetailsUseCaseTest {
         coEvery { dao.getCoinById("assetId") } returns CryptoEntity(
             assetId = "assetId",
             name = "Daryl Shelton",
-            cryptoUrl = "hello",
+            iconId = "hello",
             dateCached = 7294
         )
 

@@ -30,9 +30,9 @@ class CoinRepositoryImplTest {
             CryptoNetwork(assetId = "XRP", name = "Ripple", iconId = null)
         )
         val cryptoEntities = listOf(
-            CryptoEntity(assetId = "BTC", name = "Bitcoin", cryptoUrl = "https://example.com/btc.png", dateCached = 1627513200000),
-            CryptoEntity(assetId = "ETH", name = "Ethereum", cryptoUrl = "https://example.com/eth.png", dateCached = 1627513200000),
-            CryptoEntity(assetId = "XRP", name = "Ripple", cryptoUrl = "https://example.com/xrp.png", dateCached = 1627513200000)
+            CryptoEntity(assetId = "BTC", name = "Bitcoin", iconId = "https://example.com/btc.png", dateCached = 1627513200000),
+            CryptoEntity(assetId = "ETH", name = "Ethereum", iconId = "https://example.com/eth.png", dateCached = 1627513200000),
+            CryptoEntity(assetId = "XRP", name = "Ripple", iconId = "https://example.com/xrp.png", dateCached = 1627513200000)
         )
 
 
@@ -48,9 +48,9 @@ class CoinRepositoryImplTest {
     @Test
     fun `getAllCoins should emit non empty list even with network exception`() = runTest {
         val cryptoEntities = listOf(
-            CryptoEntity(assetId = "BTC", name = "Bitcoin", cryptoUrl = "https://example.com/btc.png", dateCached = 1627513200000),
-            CryptoEntity(assetId = "ETH", name = "Ethereum", cryptoUrl = "https://example.com/eth.png", dateCached = 1627513200000),
-            CryptoEntity(assetId = "XRP", name = "Ripple", cryptoUrl = "https://example.com/xrp.png", dateCached = 1627513200000)
+            CryptoEntity(assetId = "BTC", name = "Bitcoin", iconId = "https://example.com/btc.png", dateCached = 1627513200000),
+            CryptoEntity(assetId = "ETH", name = "Ethereum", iconId = "https://example.com/eth.png", dateCached = 1627513200000),
+            CryptoEntity(assetId = "XRP", name = "Ripple", iconId = "https://example.com/xrp.png", dateCached = 1627513200000)
         )
 
         coEvery { tickerService.getAllCoins() } throws Exception()

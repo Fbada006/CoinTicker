@@ -39,6 +39,7 @@ import com.fkexample.cointicker.ui.composables.ErrorDialog
 import com.fkexample.cointicker.ui.composables.LoadingCryptoListShimmer
 import com.fkexample.cointicker.ui.models.CryptoDetails
 import com.fkexample.cointicker.ui.theme.detailsDisplayTitleStyle
+import com.fkexample.cointicker.utils.IMAGE_BASE_URL
 import com.fkexample.cointicker.utils.getErrorMessage
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,7 +51,7 @@ fun CryptoDetailsScreen(
     error: Throwable?,
     onNavBack: () -> Unit,
     getCoinDetails: (assetId: String) -> Unit,
-    dismissError: () -> Unit
+    dismissError: () -> Unit,
 ) {
 
     LaunchedEffect(key1 = assetId, block = {
@@ -82,7 +83,7 @@ fun CryptoDetailsScreen(
             if (loading) {
                 LoadingCryptoListShimmer(imageHeight = 200.dp)
             } else if (error != null) {
-                ErrorDialog(text = stringResource(id = error.getErrorMessage()),dismissError = {
+                ErrorDialog(text = stringResource(id = error.getErrorMessage()), dismissError = {
                     dismissError()
                     onNavBack()
                 })
@@ -100,7 +101,7 @@ fun CryptoDetailsScreen(
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
-                                    CryptoImage(imageUrl = details.url)
+                                    CryptoImage(imageUrl = "$IMAGE_BASE_URL${details.iconId}")
                                     Spacer(modifier = Modifier.width(dimensionResource(id = R.dimen.size_16)))
                                     Text(
                                         text = details.name,
@@ -119,13 +120,15 @@ fun CryptoDetailsScreen(
                                         Text(text = assetId)
                                     }
                                 }
-                                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_16)))
-                                Row {
-                                    Column {
-                                        Text(
-                                            text = stringResource(R.string.usd_price_label), style = detailsDisplayTitleStyle
-                                        )
-                                        Text(text = details.priceUsd.toString())
+                                details.priceUsd?.let {
+                                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.size_16)))
+                                    Row {
+                                        Column {
+                                            Text(
+                                                text = stringResource(R.string.usd_price_label), style = detailsDisplayTitleStyle
+                                            )
+                                            Text(text = details.priceUsd.toString())
+                                        }
                                     }
                                 }
                             }

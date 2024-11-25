@@ -36,7 +36,7 @@ class TickerAppDatabaseTest {
         assertThat(dao.getAllCoins().first()).isEmpty()
 
         dao.insertCoins(
-            listOf(CryptoEntity(assetId = "luptatum", name = "Antonia Finley", cryptoUrl = null, dateCached = 5034))
+            listOf(CryptoEntity(assetId = "luptatum", name = "Antonia Finley", iconId = null, dateCached = 5034))
         )
 
         assertThat(dao.getAllCoins().first().size).isEqualTo(1)
@@ -46,8 +46,8 @@ class TickerAppDatabaseTest {
     fun `adding fav to db returns valid data on query`() = runTest {
         dao.insertCoins(
             listOf(
-                CryptoEntity(assetId = "reprehendunt", name = "Antonia Finley", cryptoUrl = null, dateCached = 5034),
-                CryptoEntity(assetId = "sem", name = "Antonia Finley", cryptoUrl = null, dateCached = 5034)
+                CryptoEntity(assetId = "reprehendunt", name = "Antonia Finley", iconId = null, dateCached = 5034),
+                CryptoEntity(assetId = "sem", name = "Antonia Finley", iconId = null, dateCached = 5034)
             )
         )
 
@@ -65,8 +65,8 @@ class TickerAppDatabaseTest {
     fun `deleting fav to db updates properly`() = runTest {
         dao.insertCoins(
             listOf(
-                CryptoEntity(assetId = "reprehendunt", name = "Antonia Finley", cryptoUrl = null, dateCached = 5034),
-                CryptoEntity(assetId = "sem", name = "Antonia Finley", cryptoUrl = null, dateCached = 5034)
+                CryptoEntity(assetId = "reprehendunt", name = "Antonia Finley", iconId = null, dateCached = 5034),
+                CryptoEntity(assetId = "sem", name = "Antonia Finley", iconId = null, dateCached = 5034)
             )
         )
 

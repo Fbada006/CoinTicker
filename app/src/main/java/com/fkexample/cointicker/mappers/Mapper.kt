@@ -39,7 +39,7 @@ private fun mapFromDomainModel(model: CryptoNetwork) =
     CryptoEntity(
         assetId = model.assetId,
         name = model.name,
-        cryptoUrl = "${model.iconId?.replace("-","")}.png",
+        iconId = "${model.iconId?.replace("-","")}.png",
         dateCached = System.currentTimeMillis()
     )
 
@@ -53,7 +53,7 @@ private fun mapToPresentationModel(model: CryptoEntity) =
     Crypto(
         assetId = model.assetId,
         name = model.name,
-        cryptoUrl = model.cryptoUrl,
+        cryptoUrl = model.iconId,
         dateCached = model.dateCached,
         isFavorite = model.isFavourite
     )

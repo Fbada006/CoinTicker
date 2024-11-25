@@ -85,7 +85,7 @@ class CoinRepositoryImpl(
                 CryptoDetails(
                     name = localCoinData!!.name,
                     dateCached = localCoinData.dateCached,
-                    url = localCoinData.cryptoUrl,
+                    iconId = localCoinData.iconId,
                     priceUsd = data.priceUsd,
                     euroToAssetRate = euroAssetRate.rate,
                     gbpToAssetRate = gbpAssetRate.rate

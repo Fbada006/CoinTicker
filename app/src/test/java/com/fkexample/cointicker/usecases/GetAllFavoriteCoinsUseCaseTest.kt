@@ -20,13 +20,13 @@ class GetAllFavoriteCoinsUseCaseTest {
             CryptoEntity(
                 "DOG",
                 name = "Paul Mathis",
-                cryptoUrl = null,
+                iconId = null,
                 dateCached = 2513,
                 isFavourite = false
             ), CryptoEntity(
                 "OGD",
                 name = "Kelsey Osborne",
-                cryptoUrl = null,
+                iconId = null,
                 dateCached = 5171,
                 isFavourite = false
             )
